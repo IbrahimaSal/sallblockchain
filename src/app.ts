@@ -8,10 +8,11 @@ const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Bran
 const tab = [];
 
 nbaplayers.forEach((element, index) => tab.push({ index: index, id: encodeSHA256(index) }));
-
+const tabpreviousnode = [];
+nbaplayers.forEach((element, index) => (index > 0) ? tabpreviousnode.push({ index: index, id: encodeSHA256(index), previousnode: encodeSHA256(index-1) }) : (tabpreviousnode.push({ index: 0, id: encodeSHA256(0) })))
 
 app.get('/', (req, res) => {
-  res.send(tab);
+  res.send(tabpreviousnode);
 });
 // start the Express server
 app.listen(port, () => {
