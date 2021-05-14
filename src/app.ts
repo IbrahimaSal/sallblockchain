@@ -6,7 +6,9 @@ const app = express();
 const port = 3000;
 const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Brandon', 'Ingram', 'Anthony', 'Davis', 'Jimmy', 'Butler'];
 const tab = [];
-nbaplayers.forEach((element, index) => tab.push({ index, id: encodeSHA256(index) }));
+
+nbaplayers.forEach((element, index) => tab.push({ index: index, id: encodeSHA256(index) }));
+
 
 app.get('/', (req, res) => {
   res.send(tab);
