@@ -16,6 +16,7 @@
         "@typescript-eslint",
         "jest"
     ],
-    "rules": {
+    "rules": {        
+            "semi-style": ["error", "last"]        
     }
 }

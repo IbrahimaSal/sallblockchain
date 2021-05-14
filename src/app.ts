@@ -1,12 +1,15 @@
 /* import { Console } from 'console'; */
 import express from 'express';
+import { encodeSHA256 } from './encodeSHA256';
 
 const app = express();
 const port = 3000;
 const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Brandon', 'Ingram', 'Anthony', 'Davis', 'Jimmy', 'Butler'];
+const tab = [];
+nbaplayers.forEach((element, index) => tab.push({ index, id: encodeSHA256(index) }));
 
 app.get('/', (req, res) => {
-  res.send(nbaplayers);
+  res.send(tab);
 });
 // start the Express server
 app.listen(port, () => {
