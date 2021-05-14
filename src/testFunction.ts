@@ -1,4 +1,2 @@
-function theTruth () {
-  return true
-}
-module.exports = { theTruth }
+// eslint-disable-next-line import/prefer-default-export
+export const theTruth = () => true;
