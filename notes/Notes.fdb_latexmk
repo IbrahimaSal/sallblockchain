@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1620835163 "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf" "Notes" 1620835164
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.aux" 1620835164 32 3985256e7290058c681f74d7a3565a19 ""
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" 1620835162 425 bc6f02e1ad20724213a2290b504aaf27 ""
+["pdflatex"] 1621179954 "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf" "Notes" 1621179954
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.aux" 1621179954 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" 1621179952 2347 0e37f1df49cbf22d55ba3dc2b6cf075c ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk" 1604665842 25396 ef3f0cba61d2facf3cd5cbf148a6dd38 ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk" 1604665839 23784 8e0ae3b642ec4d722a06cb6bc698c77a ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk" 1604665843 28416 d08c953a92e35fea5f1c8e152e8e25b3 ""
@@ -19,6 +19,10 @@
   "/usr/local/texlive/2020basic/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1136768653 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/local/texlive/2020basic/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/local/texlive/2020basic/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
+  "/usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
+  "/usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2020basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2020basic/texmf-dist/tex/latex/base/article.cls" 1601675358 20145 aad8c3dd3bc36e260347b84002182bc2 ""
   "/usr/local/texlive/2020basic/texmf-dist/tex/latex/base/fontenc.sty" 1601675358 4947 8cb7717f0cc771eca0fda15160c7fee9 ""
@@ -34,11 +38,11 @@
   "/usr/local/texlive/2020basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1601859527 81300 8ab71d359ad91c74fb7e51dbde15d585 ""
   "/usr/local/texlive/2020basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1601730293 1935973 fe26966720d9aab95fa8d91502087ae8 ""
   "/usr/local/texlive/2020basic/texmf.cnf" 1586277716 628 4346f9a816ba8e5dc36d93d5100b369e ""
-  "Notes.aux" 1620835164 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "Notes.tex" 1620835162 425 bc6f02e1ad20724213a2290b504aaf27 ""
+  "Notes.aux" 0 -1 0 "pdflatex"
+  "Notes.tex" 1621179952 2347 0e37f1df49cbf22d55ba3dc2b6cf075c ""
   (generated)
-  "Notes.pdf"
   "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.log"
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf"
   "Notes.aux"
   "Notes.log"
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf"
+  "Notes.pdf"

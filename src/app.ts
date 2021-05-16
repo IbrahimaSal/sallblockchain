@@ -1,18 +1,16 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
 /* import { Console } from 'console'; */
 import express from 'express';
-import { encodeSHA256 } from './encodeSHA256';
+import { createBlock } from './blockChainManager/createBlock';
 
 const app = express();
 const port = 3000;
 const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Brandon', 'Ingram', 'Anthony', 'Davis', 'Jimmy', 'Butler'];
-const tab = [];
-
-nbaplayers.forEach((element, index) => tab.push({ index: index, id: encodeSHA256(index) }));
-const tabpreviousnode = [];
-nbaplayers.forEach((element, index) => (index > 0) ? tabpreviousnode.push({ index: index, id: encodeSHA256(index), previousnode: encodeSHA256(index-1) }) : (tabpreviousnode.push({ index: 0, id: encodeSHA256(0) })))
+const blockChain = nbaplayers.map(createBlock);
 
 app.get('/', (req, res) => {
-  res.send(tabpreviousnode);
+  res.send(blockChain);
 });
 // start the Express server
 app.listen(port, () => {

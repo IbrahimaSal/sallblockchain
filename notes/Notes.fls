@@ -107,3 +107,7 @@ INPUT /Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen
 INPUT /Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk
 INPUT /Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk
 INPUT /Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk
+INPUT /usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+INPUT /usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb
+INPUT /usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+INPUT /usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
