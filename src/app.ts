@@ -1,13 +1,10 @@
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-unresolved */
-/* import { Console } from 'console'; */
 import express from 'express';
-import { createBlock } from './blockChainManager/createBlock';
+import { createABlockChain } from './service/blockChainManager';
 
 const app = express();
 const port = 3000;
 const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Brandon', 'Ingram', 'Anthony', 'Davis', 'Jimmy', 'Butler'];
-const blockChain = nbaplayers.map(createBlock);
+const blockChain = createABlockChain(nbaplayers.length);
 
 app.get('/', (req, res) => {
   res.send(blockChain);
