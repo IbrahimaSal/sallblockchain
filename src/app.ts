@@ -1,5 +1,5 @@
 import express from 'express';
-import { createABlockChain } from './service/blockChainManager';
+import { createABlockChain, isIntegrous } from './service/blockChainManager';
 
 const app = express();
 const port = 3000;
@@ -7,7 +7,7 @@ const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Bran
 const blockChain = createABlockChain(nbaplayers.length);
 
 app.get('/', (req, res) => {
-  res.send(blockChain);
+  res.send(isIntegrous(blockChain));
 });
 // start the Express server
 app.listen(port, () => {

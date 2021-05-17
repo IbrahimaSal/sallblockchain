@@ -12,12 +12,13 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint",
+        "@typescript-eslint","import",
         "jest"
     ],
     "rules": {
-        "semi": [2, "always"]
-        ,"import/extensions": [
+        "semi": [2, "always"],
+        "import/no-unresolved": "error",
+        "import/extensions": [
             "error",
             "ignorePackages",
             {
@@ -33,6 +34,6 @@
           "node": {
             "extensions": [".js", ".jsx", ".ts", ".tsx"]
           }
-        }
+        } 
       }
 }

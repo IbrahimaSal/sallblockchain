@@ -1,5 +1,5 @@
 import {
-  sha256, createABlockChain, createBlock, getLastBlock,
+  sha256, createABlockChain, createBlock, getLastBlock, isIntegrous,
 } from './blockChainManager';
 
 describe('sha256', () => {
@@ -67,5 +67,26 @@ describe('getLastBlock', () => {
     const result = getLastBlock(testedBlockChain);
     // then
     expect(expectedLastBlock).toStrictEqual(result);
+  });
+});
+
+describe('isIntegrous', () => {
+  it('returns false when a previousblockId of a given block does not match with the id of the corresponding previous block ', () => {
+    const testedBlockChain = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '1', id: '6b86b273ff34fce19d6oupsosszasasab804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '2', id: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35', previousBlockId: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b' }, { position: '3', id: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce', previousBlockId: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35' }];
+    // given
+    const expectedResponse = false;
+    // when
+    const result = isIntegrous(testedBlockChain);
+    // then
+    expect(expectedResponse).toStrictEqual(result);
+  });
+  it('returns true when ALL previousblockId of given blocks match with ids of previous block', () => {
+    // given
+    const testedBlockChain = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '1', id: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '2', id: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35', previousBlockId: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b' }, { position: '3', id: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce', previousBlockId: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35' }];
+    const expectedResponse = true;
+    // when
+    const result = isIntegrous(testedBlockChain);
+    // then
+    expect(expectedResponse).toStrictEqual(result);
   });
 });
