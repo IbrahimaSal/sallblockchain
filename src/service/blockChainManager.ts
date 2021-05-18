@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable max-len */
 import { SHA256 } from 'crypto-js';
 
 export const sha256 = (str) => SHA256(str.toString()).toString();
@@ -18,10 +16,11 @@ export const createABlockChain = (arrayLength:number):block[] => new Array(array
   .fill(0)
   .map(createBlock);
 
-export const getLastBlock = (blockchain:block[]) => blockchain[blockchain.length - 1];
+export const getLastBlock = (blockchain:block[]): block => blockchain[blockchain.length - 1];
 
-const validityOfABlockCondition = (_block: block, index: number, blockchain: block[]):boolean => ((index === 0) || blockchain[index].previousBlockId === blockchain[index - 1].id);
+const validBlock = (_block: block, index: number, blockchain: block[]): boolean => (
+  (index === 0) || blockchain[index].previousBlockId === blockchain[index - 1].id);
 
-export const isValidFirstMethod = (blockchain:block[]) => (blockchain.filter(validityOfABlockCondition).length - blockchain.length) === 0;
-
-export const isValid = (blockchain:block[]) : boolean => blockchain.reduce((acc, val, index, arr) => ((index === 0) ? true : (acc === (val.previousBlockId === arr[index - 1].id))), true);
+export const isThisBlockChainValid = (blockchain:block[]) => (
+  blockchain.filter(validBlock).length === blockchain.length
+);
