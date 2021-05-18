@@ -20,6 +20,8 @@ export const createABlockChain = (arrayLength:number):block[] => new Array(array
 
 export const getLastBlock = (blockchain:block[]) => blockchain[blockchain.length - 1];
 
-const integrityOfABlockCondition = (_block: any, index: number, blockchain: any[]) => ((index === 0) || blockchain[index].previousBlockId === blockchain[index - 1].id);
+const validityOfABlockCondition = (_block: block, index: number, blockchain: block[]):boolean => ((index === 0) || blockchain[index].previousBlockId === blockchain[index - 1].id);
 
-export const isIntegrous = (blockchain:block[]) => (blockchain.filter(integrityOfABlockCondition).length - blockchain.length) === 0;
+export const isValidFirstMethod = (blockchain:block[]) => (blockchain.filter(validityOfABlockCondition).length - blockchain.length) === 0;
+
+export const isValid = (blockchain:block[]) : boolean => blockchain.reduce((acc, val, index, arr) => ((index === 0) ? true : (acc === (val.previousBlockId === arr[index - 1].id))), true);
