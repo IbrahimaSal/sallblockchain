@@ -1,5 +1,5 @@
 import {
-  sha256, createABlockChain, createBlock, getLastBlock,
+  sha256, createABlockChain, createBlock, getLastBlock, isThisBlockChainValid,
 } from './blockChainManager';
 
 describe('sha256', () => {
@@ -67,5 +67,58 @@ describe('getLastBlock', () => {
     const result = getLastBlock(testedBlockChain);
     // then
     expect(expectedLastBlock).toStrictEqual(result);
+  });
+});
+
+describe('isThisBlockChainValid', () => {
+  it('returns false if random previousblockId != the id of previous block ', () => {
+    const testedBlockChain = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '1', id: '6b86b273ff34fce19d6oupsosszasasab804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '2', id: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35', previousBlockId: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b' }, { position: '3', id: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce', previousBlockId: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35' }];
+    // when
+    const result = isThisBlockChainValid(testedBlockChain);
+    // then
+    expect(result).toStrictEqual(false);
+  });
+  it('returns false if first id =! previousid of 2nd blc', () => {
+    // given
+    const testedBlockChain = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e99' }, { position: '1', id: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '2', id: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35', previousBlockId: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b' }, { position: '3', id: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce', previousBlockId: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35' }];
+    // when
+    const result = isThisBlockChainValid(testedBlockChain);
+    // then
+    expect(false).toStrictEqual(result);
+  });
+  it('returns false if last previousid =! id of previous block', () => {
+    // given
+    const testedBlockChain = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '1', id: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '2', id: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35', previousBlockId: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b' }, { position: '3', id: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce', previousBlockId: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab359' }];
+    // when
+    const result = isThisBlockChainValid(testedBlockChain);
+    // then
+    expect(false).toStrictEqual(result);
+  });
+  it('returns true when ALL previousblockId of given blocks = ids of previous blocks', () => {
+    // given
+    const testedBlockChain = [
+      { position: '0', id: 'A' },
+      { position: '1', id: 'B', previousBlockId: 'A' },
+      { position: '2', id: 'C', previousBlockId: 'B' },
+      { position: '3', id: 'D', previousBlockId: 'C' },
+    ];
+    // when
+    const result = isThisBlockChainValid(testedBlockChain);
+    // then
+    expect(result).toStrictEqual(true);
+  });
+
+  it('returns false when ALL previousblockId of given blocks are not equals to ids of previous blocks', () => {
+    // given
+    const testedBlockChain = [
+      { position: '0', id: 'A' },
+      { position: '1', id: 'B', previousBlockId: 'A' },
+      { position: '2', id: 'C', previousBlockId: 'O' },
+      { position: '3', id: 'E', previousBlockId: 'Y' },
+    ];
+    // when
+    const result = isThisBlockChainValid(testedBlockChain);
+    // then
+    expect(result).toStrictEqual(false);
   });
 });

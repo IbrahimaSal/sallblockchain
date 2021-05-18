@@ -16,4 +16,11 @@ export const createABlockChain = (arrayLength:number):block[] => new Array(array
   .fill(0)
   .map(createBlock);
 
-export const getLastBlock = (blockchain) => blockchain[blockchain.length - 1];
+export const getLastBlock = (blockchain:block[]): block => blockchain[blockchain.length - 1];
+
+const validBlock = (_block: block, index: number, blockchain: block[]): boolean => (
+  (index === 0) || blockchain[index].previousBlockId === blockchain[index - 1].id);
+
+export const isThisBlockChainValid = (blockchain:block[]) => (
+  blockchain.filter(validBlock).length === blockchain.length
+);
