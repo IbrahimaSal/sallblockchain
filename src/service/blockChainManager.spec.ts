@@ -1,5 +1,6 @@
 import {
-  sha256, createABlockChain, createBlock, getLastBlock, isThisBlockChainValid,
+  sha256, createABlockChain, createBlock,
+  getLastBlock, isThisBlockChainValid, addAblockToBlockChain,
 } from './blockChainManager';
 
 describe('sha256', () => {
@@ -105,5 +106,22 @@ describe('isThisBlockChainValid', () => {
     const result = isThisBlockChainValid(testedBlockChain);
     // then
     expect(false).toStrictEqual(result);
+  });
+});
+
+describe('addAblockToBlockChain', () => {
+  it(' returns a blockChain with a new bloc using difficulty level', () => {
+    // given
+    const testedBlockChain = [
+      { position: '0', id: 'A' },
+      { position: '1', id: 'B', previousBlockId: 'A' },
+      { position: '2', id: 'C', previousBlockId: 'B' },
+      { position: '3', id: 'D', previousBlockId: 'C' },
+    ];
+    // when
+    const result = addAblockToBlockChain(testedBlockChain);
+    // then
+    expect(getLastBlock(result).id.substring(0, 2)).toStrictEqual('00');
+    expect(isThisBlockChainValid(result)).toEqual(true);
   });
 });

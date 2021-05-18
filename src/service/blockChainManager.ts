@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { SHA256 } from 'crypto-js';
 
 export const sha256 = (str) => SHA256(str.toString()).toString();
@@ -23,3 +24,14 @@ const invalidBlock = (_block: block, index: number, blockchain: block[]):boolean
 
 export const isThisBlockChainValid = (blockchain:block[]) => (
   blockchain.find(invalidBlock) === undefined);
+
+export const mine = (bloc:block, difficulty:number) : block => {
+  let hash = sha256(bloc.position + bloc.id + Date.now());
+  while (hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
+    hash = sha256(bloc.position + bloc.id + Date.now());
+  }
+  console.log(`un nouveau bloc ayant pour id: ${hash} vient d'etre miné`);
+  return { position: bloc.position + 1, id: hash, previousBlockId: bloc.id };
+};
+
+export const addAblockToBlockChain = (blockchain:block[]) :block[] => [...blockchain, mine(getLastBlock(blockchain), 2)];
