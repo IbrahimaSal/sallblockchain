@@ -1,7 +1,8 @@
 import {
   sha256, createABlockChain, createBlock,
-  getLastBlock, isThisBlockChainValid, addAblockToBlockChain, block, mine,
+  getLastBlock, isThisBlockChainValid, addAblockToBlockChain, mine,
 } from './blockChainManager';
+import { block } from '../model/block';
 
 describe('sha256', () => {
   it(' returns the result encryption code of 0', () => {

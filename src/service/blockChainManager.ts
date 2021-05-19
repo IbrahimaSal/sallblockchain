@@ -1,12 +1,7 @@
 import { SHA256 } from 'crypto-js';
+import { block } from '../model/block';
 
 export const sha256 = (str) => SHA256(str.toString()).toString();
-
-export interface block {
-  position: string;
-  id: string;
-  previousBlockId?: string;
-}
 
 export const createBlock = (_element: string, index: number): block => ((index > 0)
   ? { position: index.toString(), id: sha256(index), previousBlockId: sha256(index - 1) }
