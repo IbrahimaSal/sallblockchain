@@ -23,3 +23,15 @@ const invalidBlock = (_block: block, index: number, blockchain: block[]):boolean
 
 export const isThisBlockChainValid = (blockchain:block[]) => (
   blockchain.find(invalidBlock) === undefined);
+
+export const mine = (bloc:block, difficulty:number) : block => {
+  let hash = sha256(bloc.position + bloc.id + Date.now());
+  while (hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
+    hash = sha256(bloc.position + bloc.id + Date.now());
+  }
+  console.log(`a new bloc with id: ${hash} just got mined`);
+  return { position: bloc.position + 1, id: hash, previousBlockId: bloc.id };
+};
+
+export const addAblockToBlockChain = (blockchain:block[]) :block[] => (
+  [...blockchain, mine(getLastBlock(blockchain), 2)]);
