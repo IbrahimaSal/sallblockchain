@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { SHA256 } from 'crypto-js';
 
 export const sha256 = (str) => SHA256(str.toString()).toString();
@@ -30,8 +29,9 @@ export const mine = (bloc:block, difficulty:number) : block => {
   while (hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
     hash = sha256(bloc.position + bloc.id + Date.now());
   }
-  console.log(`un nouveau bloc ayant pour id: ${hash} vient d'etre miné`);
+  console.log(`a new bloc with id: ${hash} just got mined`);
   return { position: bloc.position + 1, id: hash, previousBlockId: bloc.id };
 };
 
-export const addAblockToBlockChain = (blockchain:block[]) :block[] => [...blockchain, mine(getLastBlock(blockchain), 2)];
+export const addAblockToBlockChain = (blockchain:block[]) :block[] => (
+  [...blockchain, mine(getLastBlock(blockchain), 2)]);
