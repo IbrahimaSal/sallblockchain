@@ -35,3 +35,10 @@ export const mine = (bloc:block, difficulty:number) : block => {
 
 export const addAblockToBlockChain = (blockchain:block[]) :block[] => (
   [...blockchain, mine(getLastBlock(blockchain), 2)]);
+
+export interface voter{
+  privateKey:string;
+  publicKey:string;
+  balance:string;
+  vote:string;
+}
