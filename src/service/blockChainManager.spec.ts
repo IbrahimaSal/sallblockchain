@@ -14,6 +14,7 @@ describe('sha256', () => {
     expect(zero).toStrictEqual(result);
   });
 });
+
 describe('createBlock', () => {
   it('returns a genesis block (without previous blockId) when index is zero', () => {
     // given
@@ -51,6 +52,7 @@ describe('createABlockChain', () => {
     expect(expectedBlockChain).toStrictEqual(result);
   });
 });
+
 describe('getLastBlock', () => {
   it('returns a genesis block when the target is a one element blockchain', () => {
     const blockChain = [{ position: '0', id: 'A' }];
@@ -114,7 +116,6 @@ describe('isThisBlockChainValid', () => {
     // then
     expect(true).toStrictEqual(result);
   });
-
   it('returns false when ALL previousblockId of given blocks are not equals to ids of previous blocks', () => {
     // given
     const testedBlockChain = [
@@ -140,6 +141,7 @@ describe('mine', () => {
     expect(result.id.substring(0, 2).length).toEqual(2);
   });
 });
+
 describe('addAblockToBlockChain', () => {
   it(' returns a blockChain with a new bloc using difficulty level', () => {
     // given
