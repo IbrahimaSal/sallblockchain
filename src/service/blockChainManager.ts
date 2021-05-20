@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { SHA256 } from 'crypto-js';
 import { block } from '../model/block';
 
