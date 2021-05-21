@@ -29,5 +29,5 @@ export const mine = (bloc:block, difficulty:number) : block => {
   return { position: bloc.position + 1, id: hash, previousBlockId: bloc.id };
 };
 
-export const addAblockToBlockChain = (blockchain:block[]) :block[] => (
+export const addABlockToBlockChain = (blockchain:block[]) :block[] => (
   [...blockchain, mine(getLastBlock(blockchain), 2)]);

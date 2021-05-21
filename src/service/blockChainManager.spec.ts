@@ -1,6 +1,6 @@
 import {
   sha256, createABlockChain, createBlock,
-  getLastBlock, isThisBlockChainValid, addAblockToBlockChain, mine,
+  getLastBlock, isThisBlockChainValid, addABlockToBlockChain, mine,
 } from './blockChainManager';
 import { block } from '../model/block';
 
@@ -152,7 +152,7 @@ describe('addAblockToBlockChain', () => {
       { position: '3', id: 'D', previousBlockId: 'C' },
     ];
     // when
-    const result = addAblockToBlockChain(testedBlockChain);
+    const result = addABlockToBlockChain(testedBlockChain);
     // then
     expect(getLastBlock(result).id.substring(0, 2)).toStrictEqual('00');
     expect(isThisBlockChainValid(result)).toEqual(true);

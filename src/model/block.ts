@@ -3,3 +3,7 @@ export interface block {
   id: string;
   previousBlockId?: string;
 }
+
+export interface coin{
+  value:number;
+}
