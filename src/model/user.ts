@@ -1,4 +1,4 @@
-export interface user{
+export interface User{
     privateKey:string;
     publicKey:string;
     balance:number;

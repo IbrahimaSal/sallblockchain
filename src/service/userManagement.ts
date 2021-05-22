@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { user } from '../model/user';
+import { User } from '../model/user';
 
-export const getBalance = (user :user) : number => user.balance;
+export const getBalance = (user :User) : number => user.balance;
 
-export const getVote = (user :user) : string => user.vote;
+export const getVote = (user :User) : string => user.vote;
 
-export const transaction = (userA :user, userB :user, amount: number) : boolean => {
+export const transaction = (userA :User, userB :User, amount: number) : boolean => {
   if (userA.balance < amount || amount < 0) {
     return false;
   }
