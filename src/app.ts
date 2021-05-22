@@ -1,22 +1,13 @@
 import express from 'express';
+import { nbaplayers, usersList } from './model/user';
 import {
-  createABlockChain, isThisBlockChainValid, addAblockToBlockChain, sha256,
+  createABlockChain, isThisBlockChainValid, addAblockToBlockChain,
 } from './service/blockChainManager';
-import { User } from './model/user';
 
 const app = express();
 const port = 3000;
-const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Brandon', 'Ingram', 'Anthony', 'Davis', 'Jimmy', 'Butler'];
-const blockChain = createABlockChain(nbaplayers.length);
-const usersList : User[] = [];
 
-nbaplayers.forEach((element) => usersList.push({
-  privateKey: element,
-  publicKey: sha256(element),
-  balance: element.length * Math.random(),
-  vote: element,
-}));
-usersList.push();
+const blockChain = createABlockChain(nbaplayers.length);
 
 app.get('/', (req, res) => {
   res.send(blockChain);
