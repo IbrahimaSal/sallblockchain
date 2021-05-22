@@ -1,7 +1,7 @@
-import { getBalance, getVote, transaction } from './voteManagement';
+import { getBalance, getVote, transaction } from './userManagement';
 
 describe('getBalance', () => {
-  it(' returns the balance of a voter', () => {
+  it(' returns the balance of a user', () => {
     // given
     const lambdaUser = {
       privateKey: 'Sall',
