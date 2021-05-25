@@ -1,33 +1,56 @@
 /* eslint-disable no-console */
+/* eslint-disable max-len */
 import { SHA256 } from 'crypto-js';
-import { block } from '../model/block';
+import { block, blockChain } from '../model/block';
+import { statusType, transaction } from '../model/transaction';
+import { user } from '../model/user';
+import { createTransaction, minePendingBuyOrSellTransaction, minePendingExchangeTransaction } from './transactionManagement';
 
-export const sha256 = (str) => SHA256(str.toString()).toString();
+export const sha256 = (str) => (SHA256(str.toString()).toString());
 
-export const createBlock = (_element: string, index: number): block => ((index > 0)
-  ? { position: index.toString(), id: sha256(index), previousBlockId: sha256(index - 1) }
-  : { position: index.toString(), id: sha256(0) });
+export const createGenesisBlock = () : block => ({ id: sha256(Date.now()), pendingTransactions: [] });
 
-export const createABlockChain = (arrayLength:number):block[] => new Array(arrayLength)
-  .fill(0)
-  .map(createBlock);
+export const createBlock = (previousId:string, id:string, pendingTransactions:transaction[]): block => (
+  (previousId === null) ? { id, pendingTransactions } : { previousId, id, pendingTransactions }
+);
 
-export const getLastBlock = (blockchain:block[]): block => blockchain[blockchain.length - 1];
-
-const invalidBlock = (_block: block, index: number, blockchain: block[]):boolean => (
-  (index !== 0) && blockchain[index].previousBlockId !== blockchain[index - 1].id);
-
-export const isThisBlockChainValid = (blockchain:block[]) => (
-  blockchain.find(invalidBlock) === undefined);
-
-export const mine = (bloc:block, difficulty:number) : block => {
-  let hash = sha256(bloc.position + bloc.id + Date.now());
-  while (hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
-    hash = sha256(bloc.position + bloc.id + Date.now());
-  }
-  console.log(`a new bloc with id: ${hash} just got mined`);
-  return { position: bloc.position + 1, id: hash, previousBlockId: bloc.id };
+export const createBlockChain = (miningReward:number, difficulty:number, rootUser:user) : blockChain => (
+  {
+    chain: [createGenesisBlock()],
+    transactions: [],
+    miningReward,
+    difficulty,
+    rootUser,
+  });
+export const addBlock = (ToBlockChain:blockChain, Block:block):blockChain => {
+  ToBlockChain.chain.push(Block);
+  return ToBlockChain;
 };
-
-export const addABlockToBlockChain = (blockchain:block[]) :block[] => (
-  [...blockchain, mine(getLastBlock(blockchain), 2)]);
+export const getLastBlock = (BlockChain:blockChain) : block => (
+  BlockChain.chain[BlockChain.chain.length - 1]
+);
+export const findHash = (id:string, difficulty:number) => {
+  let hash = sha256(id + Date.now());
+  while (hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
+    hash = sha256(hash + Date.now());
+  }
+  return hash;
+};
+export const mine = (BlockChain:blockChain, userMiner:user):blockChain => {
+  const LastBlock = getLastBlock(BlockChain);
+  const dificulty = BlockChain.difficulty;
+  let hash = sha256(LastBlock.id + Date.now());
+  BlockChain.chain.map((blc) => minePendingBuyOrSellTransaction(BlockChain, blc));
+  BlockChain.chain.map((blc) => minePendingExchangeTransaction(BlockChain, blc));
+  while (hash.substring(0, dificulty) !== Array(dificulty + 1).join('0')) {
+    hash = sha256(LastBlock.id + Date.now());
+  }
+  console.log(`********* a new bloc with id: ${hash} just got mined by ${userMiner.privateKey}*********`);
+  const Transaction :transaction = createTransaction(
+    BlockChain.miningReward, BlockChain.rootUser, userMiner, statusType.achieved,
+  );
+  const minedBlock = createBlock(LastBlock.id, hash, []);
+  BlockChain.chain.push(minedBlock);
+  BlockChain.transactions.push(Transaction);
+  return BlockChain;
+};

@@ -1,29 +1,58 @@
+/* eslint-disable no-console */
 import express from 'express';
+import { statusType } from './model/transaction';
+import { user } from './model/user';
 import {
-  createABlockChain, isThisBlockChainValid, addAblockToBlockChain, sha256,
+  addBlock,
+  createBlock, createBlockChain, createGenesisBlock, findHash, getLastBlock, mine,
 } from './service/blockChainManager';
-import { voter } from './model/voter';
+import { createTransaction, getBalance } from './service/transactionManagement';
 
 const app = express();
 const port = 3000;
-const nbaplayers = ['Wiggins', 'Curry', 'Lebron', 'James', 'Paul', 'Zion', 'Brandon', 'Ingram', 'Anthony', 'Davis', 'Jimmy', 'Butler'];
-const blockChain = createABlockChain(nbaplayers.length);
-const votersList : voter[] = [];
-nbaplayers.forEach((element) => votersList.push({
-  privateKey: element,
-  publicKey: sha256(element),
-  balance: element.length * Math.random(),
-  vote: element,
-}));
-votersList.push();
-
+const genesisBlock = createGenesisBlock();
+const theMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
+const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+const blockChain = createBlockChain(100, 2, { privateKey: 'IbaSall', publicKey: '22071992' });
+const block1 = createBlock(
+  blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2), [],
+);
+addBlock(blockChain, block1);
+const block2 = createBlock(
+  blockChain.chain[1].id, findHash(blockChain.chain[1].id, 2), [],
+);
+addBlock(blockChain, block2);
+const block3 = createBlock(
+  blockChain.chain[2].id, findHash(blockChain.chain[2].id, 2), [],
+);
+addBlock(blockChain, block3);
+mine(blockChain, theMiner);
+const Transaction2 = createTransaction(20, theMiner, secondMiner, statusType.pending);
+const Transaction5 = createTransaction(2000, theMiner, secondMiner, statusType.pending);
+const Transaction3 = createTransaction(10, null, secondMiner, statusType.pending);
+const Transaction4 = createTransaction(10, theMiner, null, statusType.pending);
+getLastBlock(blockChain).pendingTransactions.push(Transaction2);
+getLastBlock(blockChain).pendingTransactions.push(Transaction3);
+getLastBlock(blockChain).pendingTransactions.push(Transaction4);
+getLastBlock(blockChain).pendingTransactions.push(Transaction5);
+mine(blockChain, theMiner);
+console.log(getBalance(blockChain, theMiner));
+console.log(getBalance(blockChain, secondMiner));
 app.get('/', (req, res) => {
+  res.send(genesisBlock);
+}).get('/blockChain', (req, res) => {
   res.send(blockChain);
-}).get('/validity', (req, res) => {
-  res.send(isThisBlockChainValid(addAblockToBlockChain(blockChain)));
-}).get('/voters', (req, res) => {
-  res.send(votersList);
-}).listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`server started at http://localhost:${port}`);
-});
+}).get('/chain', (req, res) => {
+  res.send(blockChain.chain);
+}).get('/blockChainTransactions', (req, res) => {
+  res.send(blockChain.transactions);
+})
+  .get('/balance', (req, res) => {
+    res.send(`theMiners'balance is :${getBalance(blockChain, theMiner)}`);
+  })
+  .get('/voters', (req, res) => {
+    res.send('Nous sommes les voteurs');
+  })
+  .listen(port, () => {
+    console.log(`server started at http://localhost:${port}`);
+  });

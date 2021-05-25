@@ -1,8 +1,17 @@
 import {
-  sha256, createABlockChain, createBlock,
-  getLastBlock, isThisBlockChainValid, addABlockToBlockChain, mine,
+  addBlock,
+  createBlock,
+  createBlockChain,
+  createGenesisBlock,
+  findHash,
+  getLastBlock,
+  mine,
+  sha256,
 } from './blockChainManager';
 import { block } from '../model/block';
+import { statusType, transaction } from '../model/transaction';
+import { user } from '../model/user';
+import { createTransaction, getBalance } from './transactionManagement';
 
 describe('sha256', () => {
   it(' returns the result encryption code of 0', () => {
@@ -14,147 +23,129 @@ describe('sha256', () => {
     expect(zero).toStrictEqual(result);
   });
 });
-
+describe('createGenesisBlock', () => {
+  it(' returns a block without previousId', () => {
+    // when
+    const genesisBlock = createGenesisBlock();
+    // then
+    expect(genesisBlock.previousId).toBe(undefined);
+    expect(genesisBlock.pendingTransactions).toEqual([]);
+  });
+});
 describe('createBlock', () => {
-  it('returns a genesis block (without previous blockId) when index is zero', () => {
+  it(' returns a block', () => {
     // given
-    const expectedGenesisBlock = { position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' };
+    const mockTransaction :transaction = {
+      amount: 10,
+      sender: null,
+      receiver: null,
+      status: statusType.pending,
+    };
     // when
-    const result = createBlock('iba', 0);
+    const bloc : block = createBlock('A', 'B', [mockTransaction]);
     // then
-    expect(result).toStrictEqual(expectedGenesisBlock);
-  });
-  it('returns a blocks (with a previousId) ', () => {
-    // given
-    const expectedBlock = { position: '1', id: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' };
-    // when
-    const result = createBlock('iba', 1);
-    // then
-    expect(result).toStrictEqual(expectedBlock);
-  });
-});
-
-describe('createABlockChain', () => {
-  it('returns a genesis block when index is zero', () => {
-    // given
-    const genesisBlock = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }];
-    // when
-    const genBlock = createABlockChain(1);
-    // then
-    expect(genBlock).toStrictEqual(genesisBlock);
-  });
-  it('returns an array of blocks', () => {
-    // given
-    const expectedBlockChain = [{ position: '0', id: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '1', id: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', previousBlockId: '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9' }, { position: '2', id: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35', previousBlockId: '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b' }, { position: '3', id: '4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce', previousBlockId: 'd4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35' }];
-    // when
-    const result = createABlockChain(4);
-    // then
-    expect(expectedBlockChain).toStrictEqual(result);
+    expect(bloc.previousId).toStrictEqual('A');
+    expect(bloc.id).toStrictEqual('B');
+    expect(bloc.pendingTransactions[0].amount).toStrictEqual(10);
+    expect(bloc.pendingTransactions[0].sender).toStrictEqual(null);
+    expect(bloc.pendingTransactions[0].receiver).toStrictEqual(null);
+    expect(bloc.pendingTransactions[0].status).toStrictEqual(1);
   });
 });
 
-describe('getLastBlock', () => {
-  it('returns a genesis block when the target is a one element blockchain', () => {
-    const blockChain = [{ position: '0', id: 'A' }];
+describe('createBlockChain', () => {
+  it(' returns a blockChain', () => {
     // given
-    const expectedGenesisBlock = { position: '0', id: 'A' };
+    const root : user = {
+      privateKey: 'IbaSall',
+      publicKey: '220071992',
+    };
     // when
-    const result = getLastBlock(blockChain);
+    const blockChain = createBlockChain(100, 2, root);
     // then
-    expect(result).toStrictEqual(expectedGenesisBlock);
-  });
-  it('returns the last element(with previousBlockId) of (multi-element) blockchain', () => {
-    // given
-    const testedBlockChain = [
-      { position: '0', id: 'A' },
-      { position: '1', id: 'B', previousBlockId: 'A' },
-      { position: '2', id: 'C', previousBlockId: 'B' },
-      { position: '3', id: 'D', previousBlockId: 'C' },
-    ];
-    const expectedLastBlock = { position: '3', id: 'D', previousBlockId: 'C' };
-    // when
-    const result = getLastBlock(testedBlockChain);
-    // then
-    expect(expectedLastBlock).toStrictEqual(result);
+    expect(blockChain.miningReward).toStrictEqual(100);
+    expect(blockChain.difficulty).toStrictEqual(2);
+    expect(blockChain.rootUser).toStrictEqual(root);
+    expect(blockChain.chain[0].previousId).toStrictEqual(undefined);
   });
 });
 
-describe('isThisBlockChainValid', () => {
-  it('returns TRUE if only one block', () => {
+describe('addBlock', () => {
+  it(' add a block to a blockchain', () => {
     // given
-    const testedBlockChain = [
-      { position: '0', id: 'A' },
-    ];
+    const root : user = {
+      privateKey: 'IbaSall',
+      publicKey: '220071992',
+    };
+    const blockChain = createBlockChain(100, 2, root);
+    const blockToAdd : block = createBlock('A', 'B',
+      [{
+        amount: 10,
+        sender: null,
+        receiver: null,
+        status: statusType.pending,
+      }]);
     // when
-    const result = isThisBlockChainValid(testedBlockChain);
+    addBlock(blockChain, blockToAdd);
     // then
-    expect(true).toStrictEqual(result);
-  });
-  it('returns false if last previousid =! id of previous block', () => {
-    // given
-    const testedBlockChain = [
-      { position: '0', id: 'A' },
-      { position: '1', id: 'B', previousBlockId: 'A' },
-      { position: '2', id: 'C', previousBlockId: 'different' },
-      { position: '3', id: 'D', previousBlockId: 'C' },
-    ];
-    // when
-    const result = isThisBlockChainValid(testedBlockChain);
-    // then
-    expect(false).toStrictEqual(result);
-  });
-  it('returns true when ALL previousblockId of given blocks = ids of previous blocks', () => {
-    // given
-    const testedBlockChain = [
-      { position: '0', id: 'A' },
-      { position: '1', id: 'B', previousBlockId: 'A' },
-      { position: '2', id: 'C', previousBlockId: 'B' },
-      { position: '3', id: 'D', previousBlockId: 'C' },
-    ];
-    // when
-    const result = isThisBlockChainValid(testedBlockChain);
-    // then
-    expect(true).toStrictEqual(result);
-  });
-  it('returns false when ALL previousblockId of given blocks are not equals to ids of previous blocks', () => {
-    // given
-    const testedBlockChain = [
-      { position: '0', id: 'A' },
-      { position: '1', id: 'B', previousBlockId: 'X' },
-      { position: '2', id: 'C', previousBlockId: 'Z' },
-      { position: '3', id: 'E', previousBlockId: 'Y' },
-    ];
-    // when
-    const result = isThisBlockChainValid(testedBlockChain);
-    // then
-    expect(false).toStrictEqual(result);
+    expect(blockChain.chain[blockChain.chain.length - 1]).toStrictEqual(blockToAdd);
   });
 });
-
+describe('findHash', () => {
+  it(' returns the result encryption code of 0', () => {
+    // given
+    const root : user = {
+      privateKey: 'IbaSall',
+      publicKey: '220071992',
+    };
+    const blockChain = createBlockChain(100, 2, root);
+    const blockToAdd1 : block = createBlock('A', 'B',
+      [{
+        amount: 10,
+        sender: null,
+        receiver: null,
+        status: statusType.pending,
+      }]);
+    addBlock(blockChain, blockToAdd1);
+    // when
+    const blockToAdd2 :block = createBlock(
+      blockToAdd1.id, findHash(blockToAdd1.id, blockChain.difficulty), [],
+    );
+    addBlock(blockChain, blockToAdd2);
+    // then
+    expect(getLastBlock(blockChain).id.substring(0, 2)).toStrictEqual('00');
+  });
+});
 describe('mine', () => {
-  it(' returns a block id wich first 0 match with difficulty level', () => {
+  it(' returns the result encryption code of 0', () => {
     // given
-    const bloc : block = { position: '1', id: 'B', previousBlockId: 'A' };
+    const root : user = {
+      privateKey: 'IbaSall',
+      publicKey: '220071992',
+    };
+    const firstMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
+    const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+    const blockChain = createBlockChain(100, 2, root);
+    const block1 = createBlock(
+      blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2), [],
+    );
+    addBlock(blockChain, block1);
+    const block2 = createBlock(blockChain.chain[1].id, findHash(blockChain.chain[1].id, 2), []);
+    addBlock(blockChain, block2);
+    const block3 = createBlock(blockChain.chain[2].id, findHash(blockChain.chain[2].id, 2), []);
+    addBlock(blockChain, block3);
     // when
-    const result = mine(bloc, 2);
+    const transaction1 = createTransaction(400, root, firstMiner, statusType.achieved);
+    const transaction2 = createTransaction(50, firstMiner, secondMiner, statusType.pending);
+    const transaction31 = createTransaction(50, null, secondMiner, statusType.pending);
+    const transaction32 = createTransaction(50, firstMiner, null, statusType.pending);
+    blockChain.transactions.push(transaction1);
+    block3.pendingTransactions.push(transaction2);
+    block3.pendingTransactions.push(transaction31);
+    block3.pendingTransactions.push(transaction32);
+    mine(blockChain, firstMiner);
     // then
-    expect(result.id.substring(0, 2).length).toEqual(2);
-  });
-});
-
-describe('addAblockToBlockChain', () => {
-  it(' returns a blockChain with a new bloc using difficulty level', () => {
-    // given
-    const testedBlockChain = [
-      { position: '0', id: 'A' },
-      { position: '1', id: 'B', previousBlockId: 'A' },
-      { position: '2', id: 'C', previousBlockId: 'B' },
-      { position: '3', id: 'D', previousBlockId: 'C' },
-    ];
-    // when
-    const result = addABlockToBlockChain(testedBlockChain);
-    // then
-    expect(getLastBlock(result).id.substring(0, 2)).toStrictEqual('00');
-    expect(isThisBlockChainValid(result)).toEqual(true);
+    expect(getBalance(blockChain, firstMiner)).toStrictEqual(400);
+    expect(getBalance(blockChain, secondMiner)).toStrictEqual(100);
   });
 });
