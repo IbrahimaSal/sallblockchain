@@ -13,17 +13,17 @@ const port = 3000;
 const genesisBlock = createGenesisBlock();
 const theMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
 const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
-const blockChain = createBlockChain(100, 2, { privateKey: 'IbaSall', publicKey: '22071992' });
+const blockChain = createBlockChain(100, 2);
 const block1 = createBlock(
-  blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2), [],
+  blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2),
 );
 addBlock(blockChain, block1);
 const block2 = createBlock(
-  blockChain.chain[1].id, findHash(blockChain.chain[1].id, 2), [],
+  blockChain.chain[1].id, findHash(blockChain.chain[1].id, 2),
 );
 addBlock(blockChain, block2);
 const block3 = createBlock(
-  blockChain.chain[2].id, findHash(blockChain.chain[2].id, 2), [],
+  blockChain.chain[2].id, findHash(blockChain.chain[2].id, 2),
 );
 addBlock(blockChain, block3);
 mine(blockChain, theMiner);
@@ -38,6 +38,7 @@ getLastBlock(blockChain).pendingTransactions.push(Transaction5);
 mine(blockChain, theMiner);
 console.log(getBalance(blockChain, theMiner));
 console.log(getBalance(blockChain, secondMiner));
+console.log(blockChain.transactions);
 app.get('/', (req, res) => {
   res.send(genesisBlock);
 }).get('/blockChain', (req, res) => {

@@ -42,7 +42,8 @@ describe('createBlock', () => {
       status: statusType.pending,
     };
     // when
-    const bloc : block = createBlock('A', 'B', [mockTransaction]);
+    const bloc : block = createBlock('A', 'B');
+    bloc.pendingTransactions.push(mockTransaction);
     // then
     expect(bloc.previousId).toStrictEqual('A');
     expect(bloc.id).toStrictEqual('B');
@@ -56,16 +57,11 @@ describe('createBlock', () => {
 describe('createBlockChain', () => {
   it(' returns a blockChain', () => {
     // given
-    const root : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
-    };
     // when
-    const blockChain = createBlockChain(100, 2, root);
+    const blockChain = createBlockChain(100, 2);
     // then
     expect(blockChain.miningReward).toStrictEqual(100);
     expect(blockChain.difficulty).toStrictEqual(2);
-    expect(blockChain.rootUser).toStrictEqual(root);
     expect(blockChain.chain[0].previousId).toStrictEqual(undefined);
   });
 });
@@ -73,18 +69,15 @@ describe('createBlockChain', () => {
 describe('addBlock', () => {
   it(' add a block to a blockchain', () => {
     // given
-    const root : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
+    const blockChain = createBlockChain(100, 2);
+    const mockTransaction = {
+      amount: 10,
+      sender: null,
+      receiver: null,
+      status: statusType.pending,
     };
-    const blockChain = createBlockChain(100, 2, root);
-    const blockToAdd : block = createBlock('A', 'B',
-      [{
-        amount: 10,
-        sender: null,
-        receiver: null,
-        status: statusType.pending,
-      }]);
+    const blockToAdd : block = createBlock('A', 'B');
+    blockToAdd.pendingTransactions.push(mockTransaction);
     // when
     addBlock(blockChain, blockToAdd);
     // then
@@ -94,22 +87,19 @@ describe('addBlock', () => {
 describe('findHash', () => {
   it(' returns the result encryption code of 0', () => {
     // given
-    const root : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
+    const blockChain = createBlockChain(100, 2);
+    const blockToAdd1 : block = createBlock('A', 'B');
+    const mockTransaction = {
+      amount: 10,
+      sender: null,
+      receiver: null,
+      status: statusType.pending,
     };
-    const blockChain = createBlockChain(100, 2, root);
-    const blockToAdd1 : block = createBlock('A', 'B',
-      [{
-        amount: 10,
-        sender: null,
-        receiver: null,
-        status: statusType.pending,
-      }]);
+    blockToAdd1.pendingTransactions.push(mockTransaction);
     addBlock(blockChain, blockToAdd1);
     // when
     const blockToAdd2 :block = createBlock(
-      blockToAdd1.id, findHash(blockToAdd1.id, blockChain.difficulty), [],
+      blockToAdd1.id, findHash(blockToAdd1.id, blockChain.difficulty),
     );
     addBlock(blockChain, blockToAdd2);
     // then
@@ -119,23 +109,17 @@ describe('findHash', () => {
 describe('mine', () => {
   it(' returns the result encryption code of 0', () => {
     // given
-    const root : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
-    };
     const firstMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
     const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
-    const blockChain = createBlockChain(100, 2, root);
-    const block1 = createBlock(
-      blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2), [],
-    );
+    const blockChain = createBlockChain(100, 2);
+    const block1 = createBlock(blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2));
     addBlock(blockChain, block1);
-    const block2 = createBlock(blockChain.chain[1].id, findHash(blockChain.chain[1].id, 2), []);
+    const block2 = createBlock(blockChain.chain[1].id, findHash(blockChain.chain[1].id, 2));
     addBlock(blockChain, block2);
-    const block3 = createBlock(blockChain.chain[2].id, findHash(blockChain.chain[2].id, 2), []);
+    const block3 = createBlock(blockChain.chain[2].id, findHash(blockChain.chain[2].id, 2));
     addBlock(blockChain, block3);
     // when
-    const transaction1 = createTransaction(400, root, firstMiner, statusType.achieved);
+    const transaction1 = createTransaction(400, null, firstMiner, statusType.achieved);
     const transaction2 = createTransaction(50, firstMiner, secondMiner, statusType.pending);
     const transaction31 = createTransaction(50, null, secondMiner, statusType.pending);
     const transaction32 = createTransaction(50, firstMiner, null, statusType.pending);

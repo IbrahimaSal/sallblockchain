@@ -10,22 +10,21 @@ export const sha256 = (str) => (SHA256(str.toString()).toString());
 
 export const createGenesisBlock = () : block => ({ id: sha256(Date.now()), pendingTransactions: [] });
 
-export const createBlock = (previousId:string, id:string, pendingTransactions:transaction[]): block => (
-  (previousId === null) ? { id, pendingTransactions } : { previousId, id, pendingTransactions }
+export const createBlock = (previousId:string, id:string): block => (
+  (previousId === null) ? { id, pendingTransactions: [] } : { previousId, id, pendingTransactions: [] }
 );
-
-export const createBlockChain = (miningReward:number, difficulty:number, rootUser:user) : blockChain => (
+export const addBlock = (ToBlockChain:blockChain, Block:block):blockChain => {
+  ToBlockChain.chain.push(Block);
+  return ToBlockChain;
+};
+export const createBlockChain = (miningReward:number, difficulty:number) : blockChain => (
   {
     chain: [createGenesisBlock()],
     transactions: [],
     miningReward,
     difficulty,
-    rootUser,
   });
-export const addBlock = (ToBlockChain:blockChain, Block:block):blockChain => {
-  ToBlockChain.chain.push(Block);
-  return ToBlockChain;
-};
+
 export const getLastBlock = (BlockChain:blockChain) : block => (
   BlockChain.chain[BlockChain.chain.length - 1]
 );
@@ -47,10 +46,12 @@ export const mine = (BlockChain:blockChain, userMiner:user):blockChain => {
   }
   console.log(`********* a new bloc with id: ${hash} just got mined by ${userMiner.privateKey}*********`);
   const Transaction :transaction = createTransaction(
-    BlockChain.miningReward, BlockChain.rootUser, userMiner, statusType.achieved,
+    BlockChain.miningReward, null, userMiner, statusType.achieved,
   );
-  const minedBlock = createBlock(LastBlock.id, hash, []);
+  const minedBlock = createBlock(LastBlock.id, hash);
   BlockChain.chain.push(minedBlock);
   BlockChain.transactions.push(Transaction);
   return BlockChain;
 };
+
+export const createUser = (publicKey: string) : user => ({ privateKey: sha256(publicKey), publicKey });

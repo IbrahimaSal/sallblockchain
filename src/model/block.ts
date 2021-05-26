@@ -1,5 +1,4 @@
 import { transaction } from './transaction';
-import { user } from './user';
 
 export interface block {
   previousId?: string;
@@ -11,5 +10,4 @@ export interface blockChain{
   transactions: transaction[];
   miningReward: number;
   difficulty: number;
-  rootUser:user;
 }
