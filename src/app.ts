@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import serverless from 'serverless-http';
 import express from 'express';
 import { statusType } from './model/transaction';
 import { user } from './model/user';
@@ -9,7 +10,7 @@ import {
 import { createTransaction, getBalance } from './service/transactionManagement';
 
 const app = express();
-const port = 3000;
+// const port = 3000;
 const genesisBlock = createGenesisBlock();
 const theMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
 const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
@@ -53,7 +54,10 @@ app.get('/', (req, res) => {
   })
   .get('/voters', (req, res) => {
     res.send('Nous sommes les voteurs');
-  })
-  .listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
   });
+
+// .listen(port, () => {
+//   console.log(`server started at http://localhost:${port}`);
+// });
+
+module.exports.handler = serverless(app);
