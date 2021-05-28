@@ -15,6 +15,7 @@
         "@typescript-eslint","import",
         "jest"
     ],
+    "ignorePatterns": [ "src/model/transaction.ts" ] ,
     "rules": {
         "semi": [2, "always"],
         "import/no-unresolved": "error",
