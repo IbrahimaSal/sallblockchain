@@ -25,7 +25,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
 
-jobs:
+
   build:
 
     runs-on: ubuntu-latest
@@ -43,7 +43,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm run test
 
-jobs:
   build:
 
     runs-on: ubuntu-latest
