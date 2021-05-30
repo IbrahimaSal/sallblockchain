@@ -46,9 +46,8 @@ jobs:
     - run: npm run lint
 
   deploy:
-
     
-runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
