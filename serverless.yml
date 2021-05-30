@@ -1,4 +1,4 @@
-service: blockChain-app
+service: blockChain-application
 provider:
   name: aws
   runtime: nodejs14.x

@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "blockChain-app",
+    "service": "blockChain-application",
     "serviceObject": {
-      "name": "blockChain-app"
+      "name": "blockChain-application"
     },
     "provider": {
       "name": "aws",
@@ -88,7 +88,7 @@
           "AppLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/blockChain-app-dev-app"
+              "LogGroupName": "/aws/lambda/blockChain-application-dev-app"
             }
           },
           "IamRoleLambdaExecution": {
@@ -116,7 +116,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "blockChain-app",
+                        "blockChain-application",
                         "dev",
                         "lambda"
                       ]
@@ -133,7 +133,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/blockChain-app-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/blockChain-application-dev*:*"
                           }
                         ]
                       },
@@ -144,7 +144,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/blockChain-app-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/blockChain-application-dev*:*:*"
                           }
                         ]
                       }
@@ -157,7 +157,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "blockChain-app",
+                    "blockChain-application",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -175,11 +175,11 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/blockChain-app/dev/1622133788894-2021-05-27T16:43:08.894Z/blockChain-app.zip"
+                "S3Key": "serverless/blockChain-application/dev/1622307570385-2021-05-29T16:59:30.385Z/blockChain-application.zip"
               },
               "Handler": "dist/app.handler",
               "Runtime": "nodejs14.x",
-              "FunctionName": "blockChain-app-dev-app",
+              "FunctionName": "blockChain-application-dev-app",
               "MemorySize": 128,
               "Timeout": 6,
               "Role": {
@@ -193,20 +193,20 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionrriPhjssdWxGiwYJY4O5IOJEIU0qm9jB6fPNtjQso": {
+          "AppLambdaVersion3eF1O9k5LXiI8puvgofoJDdf2QVC5FePi6EXyCvgBs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "/k6SF2T3ogCP5HOsAMq6G65o0t4Jp9vAhiYUNhXGPX0="
+              "CodeSha256": "f/px/YIMCfxt13b4qa8qgyFHQVndtAtFNlGRFfGiLCc="
             }
           },
           "ApiGatewayRestApi": {
             "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
-              "Name": "dev-blockChain-app",
+              "Name": "dev-blockChain-application",
               "EndpointConfiguration": {
                 "Types": [
                   "EDGE"
@@ -412,7 +412,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1622133706981": {
+          "ApiGatewayDeployment1622307546635": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -471,16 +471,16 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-blockChain-app-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-blockChain-application-dev-ServerlessDeploymentBucketName"
             }
           },
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionrriPhjssdWxGiwYJY4O5IOJEIU0qm9jB6fPNtjQso"
+              "Ref": "AppLambdaVersion3eF1O9k5LXiI8puvgofoJDdf2QVC5FePi6EXyCvgBs"
             },
             "Export": {
-              "Name": "sls-blockChain-app-dev-AppLambdaFunctionQualifiedArn"
+              "Name": "sls-blockChain-application-dev-AppLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -506,7 +506,7 @@
               ]
             },
             "Export": {
-              "Name": "sls-blockChain-app-dev-ServiceEndpoint"
+              "Name": "sls-blockChain-application-dev-ServiceEndpoint"
             }
           }
         }
@@ -653,13 +653,13 @@
             }
           }
         ],
-        "name": "blockChain-app-dev-app",
+        "name": "blockChain-application-dev-app",
         "package": {},
         "memory": 128,
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionrriPhjssdWxGiwYJY4O5IOJEIU0qm9jB6fPNtjQso"
+        "versionLogicalId": "AppLambdaVersion3eF1O9k5LXiI8puvgofoJDdf2QVC5FePi6EXyCvgBs"
       }
     },
     "configValidationMode": "warn",
@@ -677,18 +677,18 @@
           "src/**",
           "notes/**"
         ],
-        "artifact": "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/.serverless/blockChain-app.zip",
-        "artifactDirectoryName": "serverless/blockChain-app/dev/1622133788894-2021-05-27T16:43:08.894Z"
+        "artifact": "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/.serverless/blockChain-application.zip",
+        "artifactDirectoryName": "serverless/blockChain-application/dev/1622307570385-2021-05-29T16:59:30.385Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
       }
     },
     "isDashboardMonitoringPreconfigured": false,
-    "artifact": "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/.serverless/blockChain-app.zip"
+    "artifact": "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/.serverless/blockChain-application.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/blockChain-app/dev/1622133788894-2021-05-27T16:43:08.894Z",
-    "artifact": "blockChain-app.zip"
+    "artifactDirectoryName": "serverless/blockChain-application/dev/1622307570385-2021-05-29T16:59:30.385Z",
+    "artifact": "blockChain-application.zip"
   }
 }
