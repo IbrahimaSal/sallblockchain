@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1622335411 "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf" "Notes" 1622335411
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.aux" 1622335411 32 3985256e7290058c681f74d7a3565a19 ""
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" 1622335410 1398 b7f97b6d6d9869324f68b1d315391b8a ""
+["pdflatex"] 1622335485 "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf" "Notes" 1622335485
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.aux" 1622335485 32 3985256e7290058c681f74d7a3565a19 ""
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" 1622335484 2490 b2f993b0f8730fa2a7131bb9bee60f70 ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk" 1604665842 25396 ef3f0cba61d2facf3cd5cbf148a6dd38 ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk" 1604665839 23784 8e0ae3b642ec4d722a06cb6bc698c77a ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk" 1604665843 28416 d08c953a92e35fea5f1c8e152e8e25b3 ""
@@ -34,11 +34,11 @@
   "/usr/local/texlive/2020basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1601859527 81300 8ab71d359ad91c74fb7e51dbde15d585 ""
   "/usr/local/texlive/2020basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1601730293 1935973 fe26966720d9aab95fa8d91502087ae8 ""
   "/usr/local/texlive/2020basic/texmf.cnf" 1586277716 628 4346f9a816ba8e5dc36d93d5100b369e ""
-  "Notes.aux" 1622335411 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "Notes.tex" 1622335410 1398 b7f97b6d6d9869324f68b1d315391b8a ""
+  "Notes.aux" 1622335485 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "Notes.tex" 1622335484 2490 b2f993b0f8730fa2a7131bb9bee60f70 ""
   (generated)
   "Notes.pdf"
+  "Notes.aux"
   "Notes.log"
   "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.log"
-  "Notes.aux"
   "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf"

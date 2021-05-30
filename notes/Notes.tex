@@ -41,4 +41,26 @@ save it as a dependency in the package.json file.
 \newline \textbf{npm install -D typescript@3.3.3} npm notice created a lockfile as package-lock.json.
 \newline \textbf{npm install -D tslint@5.12.}.
 
+<<<<<<< HEAD
+\end{document}
+=======
+\newline Ce paquet est nécessaire car TypeScript et Express sont des paquets indépendants. Sans le paquet @types/express, il n'y a aucun moyen pour TypeScript de connaître les types de classes Express.
+\newline Une alternative à la création et au remplissage manuels du fichier tsconfig.json consiste à exécuter la commande suivante :
+\textbf{tsc --init} Cette commande va générer un fichier tsconfig.json bien commenté.
+\newline Pour configurer le linting TypeScript pour le projet. Il faut ans un terminal fonctionnant au root du répertoire du projet, que ce tutoriel a établi comme node_project, exécutez la commande suivante pour générer un fichier \textbf{tslint.json} :
+\textbf{./node_modules/.bin/tslint --init}
+\newline tslint standard file content: /*{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {"no-console": false},
+    "rulesDirectory": []
+}*/
+\newline - run: npm ci
+- run: npm run build --if-present
+
+
+
 \end{document}
