@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1622232071 "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf" "Notes" 1622232071
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.aux" 1622232071 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" 1622232069 2524 d93b187a04c1978afae8347d779b55c0 ""
+["pdflatex"] 1622335333 "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf" "Notes" 1622335333
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.aux" 1622335333 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.tex" 1622335330 2403 cf1ac0ba34e0a6c4b16abbcb52712c56 ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk" 1604665842 25396 ef3f0cba61d2facf3cd5cbf148a6dd38 ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk" 1604665839 23784 8e0ae3b642ec4d722a06cb6bc698c77a ""
   "/Users/brasil/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk" 1604665843 28416 d08c953a92e35fea5f1c8e152e8e25b3 ""
@@ -39,10 +39,10 @@
   "/usr/local/texlive/2020basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1601730293 1935973 fe26966720d9aab95fa8d91502087ae8 ""
   "/usr/local/texlive/2020basic/texmf.cnf" 1586277716 628 4346f9a816ba8e5dc36d93d5100b369e ""
   "Notes.aux" 0 -1 0 "pdflatex"
-  "Notes.tex" 1622232069 2524 d93b187a04c1978afae8347d779b55c0 ""
+  "Notes.tex" 1622335330 2403 cf1ac0ba34e0a6c4b16abbcb52712c56 ""
   (generated)
   "Notes.log"
-  "Notes.pdf"
-  "Notes.aux"
   "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.log"
   "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/notes/Notes.pdf"
+  "Notes.aux"
+  "Notes.pdf"
