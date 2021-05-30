@@ -63,5 +63,9 @@ jobs:
     - run: npm ci 
     - run: npm install -g serverless 
       uses: serverless/github-action@master
-    - run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - run: sls deploy -s dev
+      with:
+        args: deploy  
+    #- run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #- run: sls deploy -s dev
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
