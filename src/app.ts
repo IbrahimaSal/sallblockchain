@@ -41,12 +41,16 @@ console.log(getBalance(blockChain, theMiner));
 console.log(getBalance(blockChain, secondMiner));
 console.log(blockChain.transactions);
 app.get('/', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.send(genesisBlock);
 }).get('/blockChain', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.send(blockChain);
 }).get('/chain', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.send(blockChain.chain);
 }).get('/blockChainTransactions', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.send(blockChain.transactions);
 })
   .get('/balance', (req, res) => {
