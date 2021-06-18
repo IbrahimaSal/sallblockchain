@@ -10,7 +10,6 @@
       "stage": "dev",
       "region": "eu-west-3",
       "memorySize": 128,
-      "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
@@ -175,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/blockChain-app-latest/dev/1622343089098-2021-05-30T02:51:29.098Z/blockChain-app-latest.zip"
+                "S3Key": "serverless/blockChain-app-latest/dev/1624020232132-2021-06-18T12:43:52.132Z/blockChain-app-latest.zip"
               },
               "Handler": "dist/app.handler",
               "Runtime": "nodejs14.x",
@@ -193,14 +192,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersion3LlQgAGpe8dDYqR74v30FnYZzwhUIkQJRDztAeTCLRE": {
+          "AppLambdaVersion3cwLJ3znlocgko5AS3rm6dtsrR6E2iUK3gj2VEFRV4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "bexjU8p0rrHEv0H9NrFanjyzW68VNPKBXdGVwRZ6DBk="
+              "CodeSha256": "ut8c1FG9g31tCgVsrv3+IC/EWwe8zxUMKMvU8Wc/2NQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -412,7 +411,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1622343053884": {
+          "ApiGatewayDeployment1624020187850": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -477,7 +476,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersion3LlQgAGpe8dDYqR74v30FnYZzwhUIkQJRDztAeTCLRE"
+              "Ref": "AppLambdaVersion3cwLJ3znlocgko5AS3rm6dtsrR6E2iUK3gj2VEFRV4"
             },
             "Export": {
               "Name": "sls-blockChain-app-latest-dev-AppLambdaFunctionQualifiedArn"
@@ -659,12 +658,11 @@
         "timeout": 6,
         "runtime": "nodejs14.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersion3LlQgAGpe8dDYqR74v30FnYZzwhUIkQJRDztAeTCLRE"
+        "versionLogicalId": "AppLambdaVersion3cwLJ3znlocgko5AS3rm6dtsrR6E2iUK3gj2VEFRV4"
       }
     },
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
-    "layers": {},
     "initialServerlessConfig": {
       "service": {
         "$ref": "$[\"service\"][\"serviceObject\"]"
@@ -678,17 +676,18 @@
           "notes/**"
         ],
         "artifact": "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/.serverless/blockChain-app-latest.zip",
-        "artifactDirectoryName": "serverless/blockChain-app-latest/dev/1622343089098-2021-05-30T02:51:29.098Z"
+        "artifactDirectoryName": "serverless/blockChain-app-latest/dev/1624020232132-2021-06-18T12:43:52.132Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
       }
     },
+    "layers": {},
     "isDashboardMonitoringPreconfigured": false,
     "artifact": "/Users/brasil/Desktop/ProjetBlockChainSallIbrahima/sallblockchain/.serverless/blockChain-app-latest.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/blockChain-app-latest/dev/1622343089098-2021-05-30T02:51:29.098Z",
+    "artifactDirectoryName": "serverless/blockChain-app-latest/dev/1624020232132-2021-06-18T12:43:52.132Z",
     "artifact": "blockChain-app-latest.zip"
   }
 }
