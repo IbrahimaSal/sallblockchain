@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 import serverless from 'serverless-http';
 import express from 'express';
+
+import cors from 'cors';
 import { statusType } from './model/transaction';
 import { user } from './model/user';
 import {
@@ -9,8 +12,23 @@ import {
 } from './service/blockChainManager';
 import { createTransaction, getBalance } from './service/transactionManagement';
 
+// const cors = cors();
+
 const app = express();
-// const port = 3000;
+app.use(cors());
+
+// app.options('*', cors());
+// app.use(cors({
+//   allowedHeaders: ['sessionId', 'Content-Type',
+//     'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers',
+//     'Origin', 'Accept', 'X-Requested-With', 'Access-Control-Request-Method',
+//     'Access-Control-Request-Headers', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
+//   exposedHeaders: ['sessionId'],
+//   origin: '*',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   preflightContinue: false,
+// }));
+
 const genesisBlock = createGenesisBlock();
 const theMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
 const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
@@ -41,16 +59,12 @@ console.log(getBalance(blockChain, theMiner));
 console.log(getBalance(blockChain, secondMiner));
 console.log(blockChain.transactions);
 app.get('/', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
   res.send(genesisBlock);
 }).get('/blockChain', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
   res.send(blockChain);
 }).get('/chain', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
   res.send(blockChain.chain);
 }).get('/blockChainTransactions', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
   res.send(blockChain.transactions);
 })
   .get('/balance', (req, res) => {
@@ -60,7 +74,8 @@ app.get('/', (req, res) => {
     res.send('Nous sommes les voteurs');
   });
 
-// .listen(port, () => {
+// const port = 5000;
+// app.listen(port, () => {
 //   console.log(`server started at http://localhost:${port}`);
 // });
 
