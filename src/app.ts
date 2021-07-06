@@ -74,9 +74,9 @@ app.get('/', (req, res) => {
     res.send(await scanBlockChainUserTable('BlockChainUsers'));
   });
 
-const port = 5000;
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
-});
+// const port = 5000;
+// app.listen(port, () => {
+//   console.log(`server started at http://localhost:${port}`);
+// });
 
 module.exports.handler = serverless(app);
