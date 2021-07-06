@@ -1,6 +1,5 @@
-// import serverless from 'serverless-http';
+import serverless from 'serverless-http';
 import express from 'express';
-import serverless from 'serverless';
 
 import cors from 'cors';
 import { statusType } from './model/transaction';
