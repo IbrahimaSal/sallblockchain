@@ -13,9 +13,6 @@ const creds = new AWS.Credentials(process.env.AWSACCESSKEYID, process.env.AWSSEC
 AWS.config.update({
   region: 'eu-west-3',
   credentials: creds,
-  // endpoint: 'http://localhost:8000',
-  // accessKeyId: process.env.AWSACCESSKEYID,
-  // secretAccessKey: process.env.AWSSECRETKEY,
 });
 
 const saveUserInTable = (User:user, tablename:string) : user => {
@@ -73,6 +70,10 @@ const onScan = (users) => (err, data) => {
 export const scanBlockChainUserTable = async (
   tablename:string,
 ): Promise<user[]> => {
+  AWS.config.update({
+    region: 'eu-west-3',
+    credentials: creds,
+  });
   const docClient = new AWS.DynamoDB.DocumentClient();
   const params : AWS.DynamoDB.Types.ScanInput = {
     TableName: tablename,
