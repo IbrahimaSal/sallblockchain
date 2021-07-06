@@ -13,8 +13,8 @@ import { statusType, transaction } from '../model/transaction';
 import { user } from '../model/user';
 import { createTransaction, getBalance } from './transactionManagement';
 import {
-  scanBlockChainUserTable,
-  // scanTable2
+// scanBlockChainUserTable,
+// scanTable2
 } from './Database';
 
 describe('sha256', () => {
@@ -148,13 +148,13 @@ describe('mine', () => {
 //   });
 // });
 
-describe('scanBlockChainUserTable', () => {
-  it(' returns the result encryption code of 0', async () => {
-    // given
-    const tablename = 'BlockChainUsers';
-    // when
-    const result = await scanBlockChainUserTable(tablename);
-    // then
-    expect(result.length).toStrictEqual(7);
-  });
-});
+// describe('scanBlockChainUserTable', () => {
+//   it(' returns the result encryption code of 0', async () => {
+//     // given
+//     const tablename = 'BlockChainUsers';
+//     // when
+//     const result = await scanBlockChainUserTable(tablename);
+//     // then
+//     expect(result.length).toStrictEqual(7);
+//   });
+// });
