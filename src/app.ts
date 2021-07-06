@@ -12,7 +12,7 @@ import {
   createUser,
 } from './service/blockChainManager';
 import { createTransaction, getBalance } from './service/transactionManagement';
-import saveUserInTable, { scanBlockChainUserTable } from './service/Persistence';
+import saveUserInTable, { scanBlockChainUserTable } from './service/Database';
 
 const app = express();
 app.use(cors());
