@@ -9,9 +9,10 @@ import { createUser } from './blockChainManager';
 require('dotenv').config();
 
 // AWS.config.dynamodb.
+const creds = new AWS.Credentials(process.env.AWSACCESSKEYID, process.env.AWSSECRETKEY);
 AWS.config.update({
   region: 'eu-west-3',
-  credentials: new AWS.Credentials(process.env.AWSACCESSKEYID, process.env.AWSSECRETKEY),
+  credentials: creds,
   // endpoint: 'http://localhost:8000',
   // accessKeyId: process.env.AWSACCESSKEYID,
   // secretAccessKey: process.env.AWSSECRETKEY,
