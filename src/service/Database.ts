@@ -6,9 +6,13 @@ import AWS from 'aws-sdk';
 import { user } from '../model/user';
 import { createUser } from './blockChainManager';
 
+require('dotenv').config();
+
 AWS.config.update({
   region: 'eu-west-3',
   // endpoint: 'http://localhost:8000',
+  accessKeyId: process.env.AWSACCESSKEYID,
+  secretAccessKey: process.env.AWSSECRETKEY,
 });
 
 const saveUserInTable = (User:user, tablename:string) : user => {
@@ -69,6 +73,8 @@ export const scanBlockChainUserTable = async (
   const docClient = new AWS.DynamoDB.DocumentClient();
   const params : AWS.DynamoDB.Types.ScanInput = {
     TableName: tablename,
+    // accessKeyId: process.env.AWSACCESSKEYID,
+    // secretAccessKey: process.env.AWSSECRETKEY,
   };
   console.log('Scanning BlockChain users table.');
   const users = [];

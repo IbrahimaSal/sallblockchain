@@ -13,6 +13,8 @@ import {
 import { createTransaction, getBalance } from './service/transactionManagement';
 import saveUserInTable, { scanBlockChainUserTable } from './service/Database';
 
+require('dotenv').config();
+
 const app = express();
 app.use(cors());
 
@@ -73,7 +75,7 @@ app.get('/', (req, res) => {
     res.send(await scanBlockChainUserTable('BlockChainUsers'));
   });
 
-// const port = 5000;
+// const port = process.env.portstandard;
 // app.listen(port, () => {
 //   console.log(`server started at http://localhost:${port}`);
 // });
