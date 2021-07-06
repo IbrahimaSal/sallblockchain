@@ -12,6 +12,7 @@ import { block } from '../model/block';
 import { statusType, transaction } from '../model/transaction';
 import { user } from '../model/user';
 import { createTransaction, getBalance } from './transactionManagement';
+import { scanBlockChainUserTable, scanTable2 } from './Persistence';
 
 describe('sha256', () => {
   it(' returns the result encryption code of 0', () => {
@@ -131,5 +132,26 @@ describe('mine', () => {
     // then
     expect(getBalance(blockChain, firstMiner)).toStrictEqual(400);
     expect(getBalance(blockChain, secondMiner)).toStrictEqual(100);
+  });
+});
+describe('scantable2', () => {
+  it(' returns the result encryption code of 0', async () => {
+    // given
+    const tablename = 'BlockChainUsers';
+    // when
+    const result = await scanTable2(tablename);
+    // then
+    expect(result.length).toStrictEqual(5);
+  });
+});
+
+describe('scanBlockChainUserTable', () => {
+  it.only(' returns the result encryption code of 0', async () => {
+    // given
+    const tablename = 'BlockChainUsers';
+    // when
+    const result = await scanBlockChainUserTable(tablename);
+    // then
+    expect(result.length).toStrictEqual(5);
   });
 });
