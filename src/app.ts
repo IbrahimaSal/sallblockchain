@@ -74,10 +74,4 @@ app.get('/', (req, res) => {
   .get('/blockchainusers', async (req, res) => {
     res.send(await scanBlockChainUserTable('BlockChainUsers'));
   });
-
-const port = process.env.portstandard;
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
-});
-
 module.exports.handler = serverless(app);

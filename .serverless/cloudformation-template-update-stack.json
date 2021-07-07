@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/blockChain-app-database/dev/1625649405784-2021-07-07T09:16:45.784Z/blockChain-app-database.zip"
+          "S3Key": "serverless/blockChain-app-database/dev/1625651569961-2021-07-07T09:52:49.961Z/blockChain-app-database.zip"
         },
         "Handler": "dist/app.handler",
         "Runtime": "nodejs14.x",
@@ -179,14 +179,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionIjxXrENoDSxBTePeNiUeyRgVTwxllpvl0hovAWHHJA": {
+    "AppLambdaVersion1dQrq7gXmmhWeMX2c9eGzr8SkmLCaXMl7FaoVcYkhw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "rJaIsRpa8y6OAvTzaLuuznBObvxdIGrBKMuoxh6xH9E="
+        "CodeSha256": "5zbYCgJzj+bZGfct3hMHD8jx64c8c32thgueWjPFAlM="
       }
     },
     "ApiGatewayRestApi": {
@@ -398,7 +398,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1625649322381": {
+    "ApiGatewayDeployment1625651498145": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -463,7 +463,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionIjxXrENoDSxBTePeNiUeyRgVTwxllpvl0hovAWHHJA"
+        "Ref": "AppLambdaVersion1dQrq7gXmmhWeMX2c9eGzr8SkmLCaXMl7FaoVcYkhw"
       },
       "Export": {
         "Name": "sls-blockChain-app-database-dev-AppLambdaFunctionQualifiedArn"
