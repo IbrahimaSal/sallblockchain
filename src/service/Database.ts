@@ -17,10 +17,10 @@ AWS.config.update({
 
 const saveUserInTable = (User:user, tablename:string) : user => {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  AWS.config.update({
-    region: 'eu-west-3',
-    credentials: creds,
-  });
+  // AWS.config.update({
+  //   region: 'eu-west-3',
+  //   credentials: creds,
+  // });
 
   const params = {
     TableName: tablename,
@@ -79,10 +79,10 @@ const onScan = (users) => (err, data) => {
 export const scanBlockChainUserTable = async (
   tablename:string,
 ): Promise<user[]> => {
-  AWS.config.update({
-    region: 'eu-west-3',
-    credentials: creds,
-  });
+  // AWS.config.update({
+  //   region: 'eu-west-3',
+  //   credentials: creds,
+  // });
   const docClient = new AWS.DynamoDB.DocumentClient();
   const params : AWS.DynamoDB.Types.ScanInput = {
     TableName: tablename,
