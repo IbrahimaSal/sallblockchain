@@ -13,7 +13,7 @@ import { statusType, transaction } from '../model/transaction';
 import { user } from '../model/user';
 import { createTransaction, getBalance } from './transactionManagement';
 import {
-scanBlockChainUserTable,
+  scanBlockChainUserTable,
   scanTable,
 } from './Database';
 

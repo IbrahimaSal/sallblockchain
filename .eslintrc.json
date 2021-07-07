@@ -19,6 +19,7 @@
     "rules": {
         "semi": [2, "always"],
         "no-console": [
+          "off",
           { "allow": ["clear", "info", "error", "dir", "trace", "log"] }
          ],     
         "import/no-unresolved": "error",
