@@ -75,22 +75,9 @@ app.get('/', (req, res) => {
     res.send(await scanBlockChainUserTable('BlockChainUsers'));
   });
 
-// const port = process.env.portstandard;
-// app.listen(port, () => {
-//   console.log(`server started at http://localhost:${port}`);
-// });
+const port = process.env.portstandard;
+app.listen(port, () => {
+  console.log(`server started at http://localhost:${port}`);
+});
 
-module.exports = {
-  aws_table_name: 'BlockChainUsers',
-  aws_local_config: {
-    accessKeyId: process.env.AWSACCESSKEYID,
-    secretAccessKey: process.env.AWSSECRETKEY,
-    region: 'eu-west-3',
-  },
-  aws_remote_config: {
-    accessKeyId: process.env.AWSACCESSKEYID,
-    secretAccessKey: process.env.AWSSECRETKEY,
-    region: 'eu-west-3',
-  },
-};
 module.exports.handler = serverless(app);

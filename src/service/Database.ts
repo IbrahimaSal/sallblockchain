@@ -17,6 +17,11 @@ AWS.config.update({
 
 const saveUserInTable = (User:user, tablename:string) : user => {
   const docClient = new AWS.DynamoDB.DocumentClient();
+  AWS.config.update({
+    region: 'eu-west-3',
+    credentials: creds,
+  });
+
   const params = {
     TableName: tablename,
     Item: {
@@ -25,13 +30,17 @@ const saveUserInTable = (User:user, tablename:string) : user => {
     },
   };
   console.log(`Adding ${JSON.stringify(User)} to ${tablename}`);
-  docClient.put(params, (err: any, data: any) => {
-    if (err) {
-      console.error(`Unable to add ${JSON.stringify(User)} to ${tablename}. Error JSON:`, JSON.stringify(err, null, 2));
-    } else {
-      console.log('Added item:', JSON.stringify(data, null, 2));
-    }
-  });
+  try {
+    docClient.put(params, (err: any, data: any) => {
+      if (err) {
+        console.error(`Unable to add ${JSON.stringify(User)} to ${tablename}. Error JSON:`, JSON.stringify(err, null, 2));
+      } else {
+        console.log('Added item:', JSON.stringify(data, null, 2));
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
   return User;
 };
 export default saveUserInTable;
@@ -82,6 +91,10 @@ export const scanBlockChainUserTable = async (
   };
   console.log('Scanning BlockChain users table.');
   const users = [];
-  await docClient.scan(params, onScan(users)).promise();
+  try {
+    await docClient.scan(params, onScan(users)).promise();
+  } catch (error) {
+    console.error(error);
+  }
   return users;
 };
