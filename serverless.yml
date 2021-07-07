@@ -1,4 +1,4 @@
-service: blockChain-app-database
+service: blockChain-app-database-second
 
 provider:
   name: aws
