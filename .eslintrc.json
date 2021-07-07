@@ -18,6 +18,9 @@
     "ignorePatterns": [ "src/model/transaction.ts" ] ,
     "rules": {
         "semi": [2, "always"],
+        "no-console": [
+          { "allow": ["clear", "info", "error", "dir", "trace", "log"] }
+         ],     
         "import/no-unresolved": "error",
         "import/extensions": [
             "error",
