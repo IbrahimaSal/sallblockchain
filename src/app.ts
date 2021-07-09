@@ -1,4 +1,4 @@
-// import serverless from 'serverless-http';
+import serverless from 'serverless-http';
 import express from 'express';
 import cors from 'cors';
 import { statusType } from './model/transaction';
@@ -62,14 +62,9 @@ app.get('/', (req, res) => {
   })
   .get('/createUser/:email',
     async (req, res) => {
-    // res.send(await createUser(createBlockChainUser(req.params.email)));
       res.send(await createUser(createBlockChainUser(req.params.email)));
     })
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
   });
-const port = 5000;
-app.listen(port, () => {
-  console.log(`server started at http://localhost:${port}`);
-});
-// module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);

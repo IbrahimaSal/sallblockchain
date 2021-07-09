@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import { DatabaseOperationStatus } from '../model/database';
 import { user } from '../model/user';
 
 require('dotenv').config();
@@ -11,7 +12,7 @@ AWS.config.update({
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
-export const createUser = async (userToCreate:user):Promise<String> => {
+export const createUser = async (userToCreate:user):Promise<DatabaseOperationStatus> => {
   const params = {
     TableName: 'BlockChainUsers',
     Item: {
@@ -21,28 +22,13 @@ export const createUser = async (userToCreate:user):Promise<String> => {
     ReturnValues: 'ALL_OLD',
     ReturnConsumedCapacity: 'TOTAL',
   };
-  let result:string;
-  let dataToDisplay:string;
   try {
-    do {
-      // eslint-disable-next-line no-await-in-loop
-      await documentClient.put(params,
-        // eslint-disable-next-line no-loop-func
-        (error, data) => {
-          if (error) {
-            result = (`Unable to add ${JSON.stringify(userToCreate)} to the Table BlockChainUsers, because of this Error: \n 
-            ${JSON.stringify(error, null, 2)}`);
-            dataToDisplay = JSON.stringify(error);
-          } else {
-            dataToDisplay = JSON.stringify(data.Attributes);
-            result = `Added item: ${JSON.stringify(data, null, 2)}`;
-          }
-        }).promise();
-    } while (typeof dataToDisplay === 'undefined');
+    await documentClient.put(params).promise();
+    return DatabaseOperationStatus.success;
   } catch (exceptionCaught) {
     console.error(exceptionCaught);
+    return DatabaseOperationStatus.failure;
   }
-  return result;
 };
 
 export const scanTable = async ():Promise<any[]> => {
