@@ -17,11 +17,7 @@
     ],
     "ignorePatterns": [ "src/model/transaction.ts" ] ,
     "rules": {
-        "semi": [2, "always"],
-        "no-console": [
-          "off",
-          { "allow": ["clear", "info", "error", "dir", "trace", "log"] }
-         ],     
+        "semi": [2, "always"],  
         "import/no-unresolved": "error",
         "import/extensions": [
             "error",

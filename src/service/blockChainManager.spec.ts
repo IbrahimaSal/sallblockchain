@@ -2,6 +2,7 @@ import {
   addBlock,
   createBlock,
   createBlockChain,
+  createBlockChainUser,
   createGenesisBlock,
   findHash,
   getLastBlock,
@@ -12,10 +13,7 @@ import { block } from '../model/block';
 import { statusType, transaction } from '../model/transaction';
 import { user } from '../model/user';
 import { createTransaction, getBalance } from './transactionManagement';
-import {
-// scanBlockChainUserTable,
-// scanTable,
-} from './Database';
+import { createUser } from './Database';
 
 describe('sha256', () => {
   it(' returns the result encryption code of 0', () => {
@@ -137,24 +135,12 @@ describe('mine', () => {
     expect(getBalance(blockChain, secondMiner)).toStrictEqual(100);
   });
 });
-// describe('scantable2', () => {
-//   it(' returns the result encryption code of 0', async () => {
-//     // given
-//     const tablename = 'BlockChainUsers';
-//     // when
-//     const result = await scanTable(tablename);
-//     // then
-//     expect(result.length).toStrictEqual(11);
-//   });
-// });
-
-// describe('scanBlockChainUserTable', () => {
-//   it.only(' returns the result encryption code of 0', async () => {
-//     // given
-//     const tablename = 'BlockChainUsers';
-//     // when
-//     const result = await scanBlockChainUserTable(tablename);
-//     // then
-//     expect(result.length).toStrictEqual(11);
-//   });
-// });
+describe('createUser', () => {
+  it.only(' create a new user to blockchainusers table', () => {
+    // given
+    const resultExpected = 'toto';
+    // when
+    // then
+    expect(createUser(createBlockChainUser('CECIESTAUSSIUNTESTBIS'))).toStrictEqual(resultExpected);
+  });
+});

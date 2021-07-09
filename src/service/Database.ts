@@ -9,36 +9,45 @@ AWS.config.update({
   credentials: creds,
 });
 
-const saveUserInTable = (User:user, tablename:string) : user => {
-  const documentClient = new AWS.DynamoDB.DocumentClient();
-  const params = {
-    TableName: tablename,
-    Item: {
-      PublicKey: User.publicKey,
-      PrivateKey: User.privateKey,
-    },
-  };
-  console.log(`Adding ${JSON.stringify(User)} to ${tablename}`);
-  try {
-    documentClient.put(params, (err: AWS.AWSError,
-      data: AWS.DynamoDB.DocumentClient.PutItemOutput) : void => {
-      if (err) {
-        console.error(`Unable to add ${JSON.stringify(User)} to ${tablename}. Error JSON:`, JSON.stringify(err, null, 2));
-      } else {
-        console.error('Added item:', JSON.stringify(data, null, 2));
-      }
-    });
-  } catch (error) {
-    console.error(error);
-  }
-  return User;
-};
-export default saveUserInTable;
+const documentClient = new AWS.DynamoDB.DocumentClient();
 
-export const scanTable = async (tableName:string):Promise<any[]> => {
-  const documentClient = new AWS.DynamoDB.DocumentClient();
+export const createUser = async (userToCreate:user):Promise<String> => {
+  const params = {
+    TableName: 'BlockChainUsers',
+    Item: {
+      PublicKey: userToCreate.publicKey,
+      PrivateKey: userToCreate.privateKey,
+    },
+    ReturnValues: 'ALL_OLD',
+    ReturnConsumedCapacity: 'TOTAL',
+  };
+  let result:string;
+  let dataToDisplay:string;
+  try {
+    do {
+      // eslint-disable-next-line no-await-in-loop
+      await documentClient.put(params,
+        // eslint-disable-next-line no-loop-func
+        (error, data) => {
+          if (error) {
+            result = (`Unable to add ${JSON.stringify(userToCreate)} to the Table BlockChainUsers, because of this Error: \n 
+            ${JSON.stringify(error, null, 2)}`);
+            dataToDisplay = JSON.stringify(error);
+          } else {
+            dataToDisplay = JSON.stringify(data.Attributes);
+            result = `Added item: ${JSON.stringify(data, null, 2)}`;
+          }
+        }).promise();
+    } while (typeof dataToDisplay === 'undefined');
+  } catch (exceptionCaught) {
+    console.error(exceptionCaught);
+  }
+  return result;
+};
+
+export const scanTable = async ():Promise<any[]> => {
   const params : AWS.DynamoDB.Types.ScanInput = {
-    TableName: tableName,
+    TableName: 'BlockChainUsers',
   };
   const scanResults:any[] = [];
   const items = await documentClient.scan(params).promise();
@@ -59,20 +68,15 @@ const onScan = (users:user[]) => (
   }
 };
 
-export const scanBlockChainUserTable = async (
-  tablename:string,
-): Promise<user[]> => {
-  const documentClient = new AWS.DynamoDB.DocumentClient();
+export const getAllUsers = async (): Promise<user[]> => {
   const params : AWS.DynamoDB.Types.ScanInput = {
-    TableName: tablename,
+    TableName: 'BlockChainUsers',
   };
-  console.log('Scanning BlockChain users table.');
   const users : user[] = [];
   try {
-    await documentClient.scan(params,
-      onScan(users)).promise();
+    await documentClient.scan(params, onScan(users)).promise();
   } catch (error) {
-    console.error(error);
+    console.error(`getAllUsers: ${error}`);
   }
   return users;
 };

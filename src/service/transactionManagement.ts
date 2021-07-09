@@ -21,8 +21,6 @@ export const minePendingExchangeTransaction = (BlockChain:blockChain, Block : bl
   Block.pendingTransactions.filter((Transaction) => (Transaction.sender && Transaction.receiver
     && Transaction.amount > 0 && Transaction.amount <= getBalance(BlockChain, Transaction.sender)))
     .forEach((Transaction) => {
-      console.log(`${Transaction.sender.privateKey} has transferred ${Transaction.amount}
-       to ${Transaction.receiver.privateKey}`);
       BlockChain.transactions.push(createTransaction(Transaction.amount,
         Transaction.sender, Transaction.receiver, statusType.achieved));
       Block.pendingTransactions = Block.pendingTransactions
@@ -48,13 +46,11 @@ export const minePendingBuyOrSellTransaction = (BlockChain:blockChain, Block : b
   for (const Transaction of Block.pendingTransactions) {
     const Match = findMatchingTransaction(BlockChain, Block, Transaction);
     if (!Transaction.receiver && Match) {
-      console.log(`${Transaction.sender.privateKey} has transferred ${Match.amount} to ${Match.receiver.privateKey}`);
       BlockChain.transactions.push(createTransaction(Match.amount,
         Transaction.sender, Match.receiver, statusType.achieved));
       Block.pendingTransactions = Block.pendingTransactions.filter((transactionToSuppress) => (
         Transaction !== transactionToSuppress && Match !== transactionToSuppress));
     } else if (!Transaction.sender && Match) {
-      console.log(`${Match.sender.privateKey} has transferred ${Match.amount} to ${Transaction.receiver.privateKey}`);
       BlockChain.transactions
         .push(createTransaction(Match.amount,
           Match.sender, Transaction.receiver, statusType.achieved));
@@ -62,6 +58,5 @@ export const minePendingBuyOrSellTransaction = (BlockChain:blockChain, Block : b
         Transaction !== transactionToSuppress && Match !== transactionToSuppress));
     }
   }
-  console.log(Block);
   return Block;
 };

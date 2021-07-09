@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable max-len */
 import { SHA256 } from 'crypto-js';
 import { block, blockChain } from '../model/block';
 import { statusType, transaction } from '../model/transaction';
@@ -8,10 +6,13 @@ import { createTransaction, minePendingBuyOrSellTransaction, minePendingExchange
 
 export const sha256 = (str) => (SHA256(str.toString()).toString());
 
-export const createGenesisBlock = () : block => ({ id: sha256(Date.now()), pendingTransactions: [] });
+export const createGenesisBlock = () : block => (
+  { id: sha256(Date.now()), pendingTransactions: [] });
 
 export const createBlock = (previousId:string, id:string): block => (
-  (previousId === null) ? { id, pendingTransactions: [] } : { previousId, id, pendingTransactions: [] }
+  (previousId === null)
+    ? { id, pendingTransactions: [] }
+    : { previousId, id, pendingTransactions: [] }
 );
 export const addBlock = (ToBlockChain:blockChain, Block:block):blockChain => {
   ToBlockChain.chain.push(Block);
@@ -44,7 +45,6 @@ export const mine = (BlockChain:blockChain, userMiner:user):blockChain => {
   while (hash.substring(0, dificulty) !== Array(dificulty + 1).join('0')) {
     hash = sha256(LastBlock.id + Date.now());
   }
-  console.log(`********* a new bloc with id: ${hash} just got mined by ${userMiner.privateKey}*********`);
   const Transaction :transaction = createTransaction(
     BlockChain.miningReward, null, userMiner, statusType.achieved,
   );
@@ -54,4 +54,5 @@ export const mine = (BlockChain:blockChain, userMiner:user):blockChain => {
   return BlockChain;
 };
 
-export const createUser = (publicKey: string) : user => ({ privateKey: sha256(publicKey), publicKey });
+export const createBlockChainUser = (publicKey: string) : user => (
+  { privateKey: sha256(publicKey), publicKey });
