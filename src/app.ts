@@ -1,4 +1,4 @@
-import serverless from 'serverless-http';
+// import serverless from 'serverless-http';
 import express from 'express';
 import cors from 'cors';
 import { statusType } from './model/transaction';
@@ -8,7 +8,7 @@ import {
   createBlock, createBlockChain, createBlockChainUser, createGenesisBlock,
   findHash, getLastBlock, mine,
 } from './service/blockChainManager';
-import { createTransaction, getBalance } from './service/transactionManagement';
+import { createTransaction, getAllTransactionsByUser, getBalance } from './service/transactionManagement';
 import { createUser, getAllUsers } from './service/Database';
 
 require('dotenv').config();
@@ -17,8 +17,8 @@ const app = express();
 app.use(cors());
 
 const genesisBlock = createGenesisBlock();
-const theMiner : user = { PrivateKey: 'FirstMiner', PublicKey: '24052021' };
-const secondMiner : user = { PrivateKey: 'secondMiner', PublicKey: '24052022' };
+const theMiner : user = createBlockChainUser('FirstMiner');
+const secondMiner : user = createBlockChainUser('secondMiner');
 const blockChain = createBlockChain(100, 2);
 const block1 = createBlock(
   blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2),
@@ -64,7 +64,16 @@ app.get('/', (req, res) => {
     async (req, res) => {
       res.send(await createUser(createBlockChainUser(req.params.email)));
     })
+  .get('/getAllTransactions/:userpublickey',
+    (req, res) => {
+      res.send(
+        getAllTransactionsByUser(
+          blockChain, createBlockChainUser(req.params.userpublickey),
+        ),
+      );
+    })
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
   });
-module.exports.handler = serverless(app);
+app.listen(5000);
+// module.exports.handler = serverless(app);

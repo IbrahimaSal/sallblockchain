@@ -50,7 +50,7 @@ describe('createBlock', () => {
     expect(bloc.pendingTransactions[0].amount).toStrictEqual(10);
     expect(bloc.pendingTransactions[0].sender).toStrictEqual(null);
     expect(bloc.pendingTransactions[0].receiver).toStrictEqual(null);
-    expect(bloc.pendingTransactions[0].status).toStrictEqual(1);
+    expect(bloc.pendingTransactions[0].status).toStrictEqual(statusType.pending);
   });
 });
 

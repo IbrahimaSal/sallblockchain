@@ -60,3 +60,39 @@ export const minePendingBuyOrSellTransaction = (BlockChain:blockChain, Block : b
   }
   return Block;
 };
+const getAllSucceededTransactionsByUser = (
+  blockchain:blockChain, userTargeted:user,
+) :transaction[] => blockchain
+  .transactions
+  .filter(
+    (transactionSucceeded:transaction) => (
+      (transactionSucceeded.sender
+        && transactionSucceeded.sender.PrivateKey === userTargeted.PrivateKey)
+      || (transactionSucceeded.receiver
+        && transactionSucceeded.receiver.PrivateKey === userTargeted.PrivateKey)),
+  );
+const getAllPendingTransactionsByUserForABlock = (
+  blockTargeted:block, userTargeted:user,
+):transaction[] => blockTargeted
+  .pendingTransactions
+  .filter(
+    (pendingTransaction:transaction) => (
+      (pendingTransaction.receiver
+        && pendingTransaction.receiver.PrivateKey === userTargeted.PrivateKey)
+      || (pendingTransaction.sender
+        && pendingTransaction.sender.PrivateKey === userTargeted.PrivateKey)
+    ),
+  );
+export const getAllTransactionsByUser = (
+  blockchain:blockChain, userTargeted:user,
+) :transaction[] => blockchain.chain
+  .filter(
+    (bloc: block) => getAllPendingTransactionsByUserForABlock(bloc, userTargeted).length > 0,
+  )
+  .reduce(
+    (accumulator, currentBlock) => accumulator
+      .concat(getAllPendingTransactionsByUserForABlock(currentBlock, userTargeted)), [],
+  )
+  .concat(
+    getAllSucceededTransactionsByUser(blockchain, userTargeted),
+  );

@@ -4,7 +4,9 @@ import {
   addBlock, createBlock, createBlockChain, findHash,
 } from './blockChainManager';
 import {
-  createTransaction, getBalance, minePendingBuyOrSellTransaction, minePendingExchangeTransaction,
+  createTransaction,
+  getAllTransactionsByUser,
+  getBalance, minePendingBuyOrSellTransaction, minePendingExchangeTransaction,
 } from './transactionManagement';
 
 describe('getBalance', () => {
@@ -97,6 +99,43 @@ describe('minePendingBuyOrSellTransaction', () => {
     expect(getBalance(blockChain3, firstMiner3)).toStrictEqual(350);
     expect(getBalance(blockChain3, secondMiner3)).toStrictEqual(50);
     expect(block33.pendingTransactions.find((tr) => tr === impossibleTransaction).status)
-      .toStrictEqual(1);
+      .toStrictEqual(statusType.pending);
+  });
+});
+describe('getAllTransactionsByUser', () => {
+  it(' gets all transactions initiated by a user ', () => {
+    // given
+    const root3 : user = {
+      PrivateKey: 'IbaSall3',
+      PublicKey: '2200719923',
+    };
+    const firstMiner3 : user = { PrivateKey: 'FirstMiner3', PublicKey: '2405202123' };
+    const secondMiner3 : user = { PrivateKey: 'secondMiner3', PublicKey: '2405202223' };
+    const blockChain3 = createBlockChain(100, 2);
+    const block13 = createBlock(
+      blockChain3.chain[0].id, findHash(blockChain3.chain[0].id, 2),
+    );
+    addBlock(blockChain3, block13);
+    const block23 = createBlock(blockChain3.chain[1].id, findHash(blockChain3.chain[1].id, 2));
+    addBlock(blockChain3, block23);
+    const block33 = createBlock(blockChain3.chain[2].id, findHash(blockChain3.chain[2].id, 2));
+    addBlock(blockChain3, block33);
+    const transaction13 = createTransaction(400, root3, firstMiner3, statusType.achieved);
+    const transaction231 = createTransaction(50, firstMiner3, null, statusType.pending);
+    const transaction232 = createTransaction(50, null, secondMiner3, statusType.pending);
+    const impossibleTransaction = createTransaction(5000, secondMiner3, null, statusType.pending);
+    blockChain3.transactions.push(transaction13);
+    block33.pendingTransactions.push(transaction231);
+    block33.pendingTransactions.push(transaction232);
+    block33.pendingTransactions.push(impossibleTransaction);
+    minePendingBuyOrSellTransaction(blockChain3, block33);
+    // when
+    const T = getAllTransactionsByUser(blockChain3, firstMiner3);
+    const TH = getAllTransactionsByUser(blockChain3, secondMiner3);
+    // then
+    expect(T.length).toStrictEqual(2);
+    expect(TH.length).toStrictEqual(2);
+    console.log(TH);
+    expect(TH).toContain(impossibleTransaction);
   });
 });
