@@ -1,4 +1,4 @@
-// import serverless from 'serverless-http';
+import serverless from 'serverless-http';
 import express from 'express';
 import cors from 'cors';
 import { statusType } from './model/transaction';
@@ -8,7 +8,11 @@ import {
   createBlock, createBlockChain, createBlockChainUser, createGenesisBlock,
   findHash, getLastBlock, mine,
 } from './service/blockChainManager';
-import { createTransaction, getAllTransactionsByUser, getBalance } from './service/transactionManagement';
+import {
+  createTransaction,
+  getAllTransactionsByUser,
+  getBalance,
+} from './service/transactionManagement';
 import { createUser, getAllUsers } from './service/Database';
 
 require('dotenv').config();
@@ -75,5 +79,4 @@ app.get('/', (req, res) => {
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
   });
-app.listen(5000);
-// module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
