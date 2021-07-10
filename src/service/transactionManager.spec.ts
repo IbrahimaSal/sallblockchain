@@ -10,11 +10,11 @@ import {
 describe('getBalance', () => {
   it(' get balance of a user', () => {
     const root : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
+      PrivateKey: 'IbaSall',
+      PublicKey: '220071992',
     };
-    const firstMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
-    const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+    const firstMiner : user = { PrivateKey: 'FirstMiner', PublicKey: '24052021' };
+    const secondMiner : user = { PrivateKey: 'secondMiner', PublicKey: '24052022' };
     const blockChain = createBlockChain(100, 2);
     const block1 = createBlock(
       blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2),
@@ -39,11 +39,11 @@ describe('minePendingExchangeTransaction', () => {
   it(' mine a transaction between two user in a given block', () => {
     // given
     const root2 : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
+      PrivateKey: 'IbaSall',
+      PublicKey: '220071992',
     };
-    const firstMiner2 : user = { privateKey: 'FirstMiner2', publicKey: '240520212' };
-    const secondMiner2 : user = { privateKey: 'secondMiner2', publicKey: '240520222' };
+    const firstMiner2 : user = { PrivateKey: 'FirstMiner2', PublicKey: '240520212' };
+    const secondMiner2 : user = { PrivateKey: 'secondMiner2', PublicKey: '240520222' };
     const blockChain2 = createBlockChain(100, 2);
     const block12 = createBlock(
       blockChain2.chain[0].id, findHash(blockChain2.chain[0].id, 2),
@@ -68,11 +68,11 @@ describe('minePendingBuyOrSellTransaction', () => {
   it(' mine a buy or sell transaction request if a correct match is found', () => {
     // given
     const root3 : user = {
-      privateKey: 'IbaSall3',
-      publicKey: '2200719923',
+      PrivateKey: 'IbaSall3',
+      PublicKey: '2200719923',
     };
-    const firstMiner3 : user = { privateKey: 'FirstMiner3', publicKey: '2405202123' };
-    const secondMiner3 : user = { privateKey: 'secondMiner3', publicKey: '2405202223' };
+    const firstMiner3 : user = { PrivateKey: 'FirstMiner3', PublicKey: '2405202123' };
+    const secondMiner3 : user = { PrivateKey: 'secondMiner3', PublicKey: '2405202223' };
     const blockChain3 = createBlockChain(100, 2);
     const block13 = createBlock(
       blockChain3.chain[0].id, findHash(blockChain3.chain[0].id, 2),

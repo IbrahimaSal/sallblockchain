@@ -55,4 +55,4 @@ export const mine = (BlockChain:blockChain, userMiner:user):blockChain => {
 };
 
 export const createBlockChainUser = (publicKey: string) : user => (
-  { privateKey: sha256(publicKey), publicKey });
+  { PrivateKey: sha256(publicKey), PublicKey: publicKey });

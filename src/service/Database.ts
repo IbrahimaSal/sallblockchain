@@ -16,8 +16,8 @@ export const createUser = async (userToCreate:user):Promise<DatabaseOperationSta
   const params = {
     TableName: 'BlockChainUsers',
     Item: {
-      PublicKey: userToCreate.publicKey,
-      PrivateKey: userToCreate.privateKey,
+      PublicKey: userToCreate.PublicKey,
+      PrivateKey: userToCreate.PrivateKey,
     },
     ReturnValues: 'ALL_OLD',
     ReturnConsumedCapacity: 'TOTAL',

@@ -17,8 +17,8 @@ const app = express();
 app.use(cors());
 
 const genesisBlock = createGenesisBlock();
-const theMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
-const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+const theMiner : user = { PrivateKey: 'FirstMiner', PublicKey: '24052021' };
+const secondMiner : user = { PrivateKey: 'secondMiner', PublicKey: '24052022' };
 const blockChain = createBlockChain(100, 2);
 const block1 = createBlock(
   blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2),
