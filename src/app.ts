@@ -1,4 +1,4 @@
-import serverless from 'serverless-http';
+// import serverless from 'serverless-http';
 import express from 'express';
 import cors from 'cors';
 import { statusType } from './model/transaction';
@@ -64,6 +64,25 @@ app.get('/', (req, res) => {
   .get('/voters', (req, res) => {
     res.send('Nous sommes les voteurs');
   })
+  .get('/balance/:publicKey', (req, res) => {
+    console.log(getBalance(blockChain, createBlockChainUser(req.params.publicKey)));
+    res.send(
+      `${getBalance(blockChain, 
+        createBlockChainUser(req.params.publicKey)
+        )}`
+    );
+  })
+  .get('/createTransaction/:amount/:sender/:receiver', (req, res) => {
+    const transactionToCreate = createTransaction(
+      Number(req.params.amount),
+      createBlockChainUser(req.params.sender),
+      createBlockChainUser(req.params.receiver),
+      statusType.pending,
+    );
+    const numberOfBlocks = blockChain.chain.length;
+    blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
+    res.send(blockChain);
+  })
   .get('/createUser/:email',
     async (req, res) => {
       res.send(await createUser(createBlockChainUser(req.params.email)));
@@ -79,4 +98,6 @@ app.get('/', (req, res) => {
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
   });
-module.exports.handler = serverless(app);
+app.listen(2000, () => {
+  console.log('listening on port 2000')});
+// module.exports.handler = serverless(app);
