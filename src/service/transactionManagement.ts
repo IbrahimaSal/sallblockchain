@@ -13,12 +13,12 @@ export const createTransaction = (amount:number, sender:user, receiver:user, sta
 export const getBalance = (BlockChain:blockChain, User:user) : number => (
   BlockChain.transactions
     .filter((Transaction) => (
-          Transaction.sender?.PrivateKey === User.PrivateKey 
-      ||  Transaction.receiver?.PrivateKey === User.PrivateKey))
+      Transaction.sender?.PrivateKey === User.PrivateKey
+      || Transaction.receiver?.PrivateKey === User.PrivateKey))
     .reduce(((accumulator, Transaction) => (
       (Transaction.receiver?.PrivateKey === User.PrivateKey)
-      ? (accumulator + Transaction.amount)
-      : (accumulator - Transaction.amount))), 0));
+        ? (accumulator + Transaction.amount)
+        : (accumulator - Transaction.amount))), 0));
 
 export const minePendingExchangeTransaction = (BlockChain:blockChain, Block : block) : block => {
   Block.pendingTransactions.filter((Transaction) => (Transaction.sender && Transaction.receiver

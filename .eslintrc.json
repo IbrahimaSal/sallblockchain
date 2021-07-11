@@ -6,13 +6,16 @@
     },
     "extends": ["airbnb-base"
     ],
-    "parser": "@babel/eslint-parser",
+    // "parser": "@babel/eslint-parser",
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 12,
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint","import",
+        "@typescript-eslint",
+        "import", 
+        // "@babel/plugin-proposal-optional-chaining",
         "jest"
     ],
     "ignorePatterns": [ "src/model/transaction.ts" ] ,

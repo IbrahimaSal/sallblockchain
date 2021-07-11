@@ -1,4 +1,4 @@
-// import serverless from 'serverless-http';
+import serverless from 'serverless-http';
 import express from 'express';
 import cors from 'cors';
 import { statusType } from './model/transaction';
@@ -67,9 +67,8 @@ app.get('/', (req, res) => {
   .get('/balance/:publicKey', (req, res) => {
     console.log(getBalance(blockChain, createBlockChainUser(req.params.publicKey)));
     res.send(
-      `${getBalance(blockChain, 
-        createBlockChainUser(req.params.publicKey)
-        )}`
+      `${getBalance(blockChain,
+        createBlockChainUser(req.params.publicKey))}`,
     );
   })
   .get('/createTransaction/:amount/:sender/:receiver', (req, res) => {
@@ -98,6 +97,7 @@ app.get('/', (req, res) => {
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
   });
-app.listen(2000, () => {
-  console.log('listening on port 2000')});
-// module.exports.handler = serverless(app);
+// app.listen(2000, () => {
+//   console.log('listening on port localhost:2000');
+// });
+module.exports.handler = serverless(app);
