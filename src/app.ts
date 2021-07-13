@@ -109,15 +109,4 @@ app.get('/', (req, res) => {
       return ApiOperationStatus.failure;
     }
   });
-// app.route('/createUser')
-//   .post(async (request, res) => {
-//     try {
-//       await createUser(createBlockChainUser(request.body.publickey));
-//       console.log(res);
-//       return ApiOperationStatus.success;
-//     } catch (error) {
-//       console.error(error);
-//       return ApiOperationStatus.failure;
-//     }
-//   });
 module.exports.handler = serverless(app);
