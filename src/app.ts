@@ -14,11 +14,13 @@ import {
   getBalance,
 } from './service/transactionManagement';
 import { createUser, getAllUsers } from './service/Database';
+import { ApiOperationStatus } from './model/database';
 
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 const genesisBlock = createGenesisBlock();
 const theMiner : user = createBlockChainUser('FirstMiner');
@@ -96,8 +98,26 @@ app.get('/', (req, res) => {
     })
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
+  })
+  .post('/createUser', async (request, res) => {
+    try {
+      await createUser(createBlockChainUser(request.body.publickey));
+      console.log(res);
+      return ApiOperationStatus.success;
+    } catch (error) {
+      console.error(error);
+      return ApiOperationStatus.failure;
+    }
   });
-// app.listen(2000, () => {
-//   console.log('listening on port localhost:2000');
-// });
+// app.route('/createUser')
+//   .post(async (request, res) => {
+//     try {
+//       await createUser(createBlockChainUser(request.body.publickey));
+//       console.log(res);
+//       return ApiOperationStatus.success;
+//     } catch (error) {
+//       console.error(error);
+//       return ApiOperationStatus.failure;
+//     }
+//   });
 module.exports.handler = serverless(app);
