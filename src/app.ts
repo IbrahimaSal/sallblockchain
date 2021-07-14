@@ -1,5 +1,6 @@
 import serverless from 'serverless-http';
 import express from 'express';
+import multer from 'multer';
 import cors from 'cors';
 import { statusType } from './model/transaction';
 import { user } from './model/user';
@@ -96,17 +97,22 @@ app.get('/', (req, res) => {
         ),
       );
     })
+  .post('/oups',
+    (request, res) => {
+      res.send('oups');
+    })
+  .post('/createUser', multer().none(),
+    async (request, response) => {
+      console.log(JSON.stringify(request.body));
+      try {
+        await createUser(createBlockChainUser(request.body.publickey));
+        response.send(ApiOperationStatus.success);
+      } catch (error) {
+        console.error(error);
+        response.send(ApiOperationStatus.failure);
+      }
+    })
   .get('/blockChainUsers', async (req, res) => {
     res.send(await getAllUsers());
-  })
-  .post('/createUser', async (request, res) => {
-    try {
-      await createUser(createBlockChainUser(request.body.publickey));
-      console.log(res);
-      return ApiOperationStatus.success;
-    } catch (error) {
-      console.error(error);
-      return ApiOperationStatus.failure;
-    }
   });
 module.exports.handler = serverless(app);
