@@ -85,6 +85,17 @@ app.get('/', (req, res) => {
     blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
     res.send(blockChain);
   })
+  .post('/createTransaction', multer().none(), (request, response) => {
+    const transactionToCreate = createTransaction(
+      Number(request.body.amount),
+      createBlockChainUser(request.body.sender),
+      createBlockChainUser(request.body.receiver),
+      statusType.pending,
+    );
+    const numberOfBlocks = blockChain.chain.length;
+    blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
+    response.send(blockChain);
+  })
   .get('/createUser/:email',
     async (req, res) => {
       res.send(await createUser(createBlockChainUser(req.params.email)));
