@@ -85,13 +85,15 @@ app.get('/', (req, res) => {
     blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
     res.send(blockChain);
   })
-  .post('/createTransaction', multer().none(), (request, response) => {
+  .post('/createTransaction', multer().none(), async (request, response) => {
+    console.error(JSON.stringify(await request.body));
     const transactionToCreate = createTransaction(
-      Number(request.body.amount),
-      createBlockChainUser(request.body.sender),
-      createBlockChainUser(request.body.receiver),
+      Number(await request.body.amount),
+      createBlockChainUser(await request.body.sender),
+      createBlockChainUser(await request.body.receiver),
       statusType.pending,
     );
+    console.error(transactionToCreate);
     const numberOfBlocks = blockChain.chain.length;
     blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
     response.send(blockChain);
