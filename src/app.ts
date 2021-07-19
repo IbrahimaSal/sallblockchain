@@ -68,7 +68,6 @@ app.get('/', (req, res) => {
     res.send('Nous sommes les voteurs');
   })
   .get('/balance/:publicKey', (req, res) => {
-    console.log(getBalance(blockChain, createBlockChainUser(req.params.publicKey)));
     res.send(
       `${getBalance(blockChain,
         createBlockChainUser(req.params.publicKey))}`,
@@ -86,14 +85,12 @@ app.get('/', (req, res) => {
     res.send(blockChain);
   })
   .post('/createTransaction', multer().none(), async (request, response) => {
-    console.error(JSON.stringify(await request.body));
     const transactionToCreate = createTransaction(
       Number(await request.body.amount),
       createBlockChainUser(await request.body.sender),
       createBlockChainUser(await request.body.receiver),
       statusType.pending,
     );
-    console.error(transactionToCreate);
     const numberOfBlocks = blockChain.chain.length;
     blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
     response.send(blockChain);
@@ -110,13 +107,8 @@ app.get('/', (req, res) => {
         ),
       );
     })
-  .post('/oups',
-    (request, res) => {
-      res.send('oups');
-    })
   .post('/createUser', multer().none(),
     async (request, response) => {
-      console.log(JSON.stringify(request.body));
       try {
         await createUser(createBlockChainUser(request.body.publickey));
         response.send(ApiOperationStatus.success);

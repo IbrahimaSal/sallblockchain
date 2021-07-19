@@ -35,7 +35,7 @@ export const scanTable = async ():Promise<any[]> => {
   const params : AWS.DynamoDB.Types.ScanInput = {
     TableName: 'BlockChainUsers',
   };
-  const scanResults:any[] = [];
+  const scanResults = [];
   const items = await documentClient.scan(params).promise();
   do {
     items.Items.forEach((item:any) => scanResults.push(item));
@@ -50,7 +50,7 @@ const onScan = (users:user[]) => (
   if (error) {
     console.error('Unable to scan the table. Error JSON:', JSON.stringify(error, null, 2));
   } else {
-    data.Items.forEach((User:user) => users.push(User));
+    data.Items.forEach((uSer:user) => users.push(uSer));
   }
 };
 

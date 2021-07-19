@@ -10,58 +10,67 @@ export const createTransaction = (amount:number, sender:user, receiver:user, sta
     amount, sender, receiver, status,
   });
 
-export const getBalance = (BlockChain:blockChain, User:user) : number => (
-  BlockChain.transactions
-    .filter((Transaction) => (
-      Transaction.sender?.PrivateKey === User.PrivateKey
-      || Transaction.receiver?.PrivateKey === User.PrivateKey))
-    .reduce(((accumulator, Transaction) => (
-      (Transaction.receiver?.PrivateKey === User.PrivateKey)
-        ? (accumulator + Transaction.amount)
-        : (accumulator - Transaction.amount))), 0));
+export const getBalance = (blockchainTargeted:blockChain, userTargeted:user) : number => (
+  blockchainTargeted.transactions
+    .filter((transactionToFilter) => (
+      transactionToFilter.sender?.PrivateKey === userTargeted.PrivateKey
+      || transactionToFilter.receiver?.PrivateKey === userTargeted.PrivateKey))
+    .reduce(((accumulator, currentTransaction) => (
+      (currentTransaction.receiver?.PrivateKey === userTargeted.PrivateKey)
+        ? (accumulator + currentTransaction.amount)
+        : (accumulator - currentTransaction.amount))), 0));
 
-export const minePendingExchangeTransaction = (BlockChain:blockChain, Block : block) : block => {
-  Block.pendingTransactions.filter((Transaction) => (Transaction.sender && Transaction.receiver
-    && Transaction.amount > 0 && Transaction.amount <= getBalance(BlockChain, Transaction.sender)))
-    .forEach((Transaction) => {
-      BlockChain.transactions.push(createTransaction(Transaction.amount,
-        Transaction.sender, Transaction.receiver, statusType.achieved));
-      Block.pendingTransactions = Block.pendingTransactions
-        .filter((TransacTion) => TransacTion !== Transaction);
+export const minePendingExchangeTransaction = (
+  blockChainTargeted:blockChain, blockToMine : block,
+) : block => {
+  blockToMine.pendingTransactions.filter(
+    (transactionToFilter) => (transactionToFilter.sender && transactionToFilter.receiver
+    && transactionToFilter.amount > 0
+    && transactionToFilter.amount <= getBalance(blockChainTargeted, transactionToFilter.sender)),
+  )
+    .forEach((transactionTargeted) => {
+      blockChainTargeted.transactions.push(createTransaction(transactionTargeted.amount,
+        transactionTargeted.sender, transactionTargeted.receiver, statusType.achieved));
+      blockToMine.pendingTransactions = blockToMine.pendingTransactions
+        .filter((transactionToFilter) => transactionToFilter !== transactionTargeted);
     });
-  return Block;
+  return blockToMine;
 };
 
-const findMatchingTransaction = (BlockChain:blockChain, Block : block,
-  Transaction :transaction) :transaction => {
-  if (!Transaction.sender) {
-    return Block.pendingTransactions.find((TransactionToFind) => (
-      TransactionToFind.amount === Transaction.amount && !TransactionToFind.receiver));
+const findMatchingTransaction = (blockTargeted : block,
+  transactionTargeted :transaction) :transaction => {
+  if (!transactionTargeted.sender) {
+    return blockTargeted.pendingTransactions.find((transactionToFind) => (
+      transactionToFind.amount === transactionTargeted.amount && !transactionToFind.receiver));
   }
-  if (!Transaction.receiver) {
-    return Block.pendingTransactions.find((TransactionToFind) => (
-      TransactionToFind.amount === Transaction.amount && !TransactionToFind.sender));
+  if (!transactionTargeted.receiver) {
+    return blockTargeted.pendingTransactions.find((transactionToFind) => (
+      transactionToFind.amount === transactionTargeted.amount && !transactionToFind.sender));
   }
   return undefined;
 };
 
-export const minePendingBuyOrSellTransaction = (BlockChain:blockChain, Block : block) : block => {
-  for (const Transaction of Block.pendingTransactions) {
-    const Match = findMatchingTransaction(BlockChain, Block, Transaction);
+export const minePendingBuyOrSellTransaction = (
+  blockChainToMine:blockChain, blockTargeted : block,
+) : block => {
+  for (const Transaction of blockTargeted.pendingTransactions) {
+    const Match = findMatchingTransaction(blockTargeted, Transaction);
     if (!Transaction.receiver && Match) {
-      BlockChain.transactions.push(createTransaction(Match.amount,
+      blockChainToMine.transactions.push(createTransaction(Match.amount,
         Transaction.sender, Match.receiver, statusType.achieved));
-      Block.pendingTransactions = Block.pendingTransactions.filter((transactionToSuppress) => (
-        Transaction !== transactionToSuppress && Match !== transactionToSuppress));
+      blockTargeted.pendingTransactions = blockTargeted.pendingTransactions
+        .filter((transactionToSuppress) => (
+          Transaction !== transactionToSuppress && Match !== transactionToSuppress));
     } else if (!Transaction.sender && Match) {
-      BlockChain.transactions
+      blockChainToMine.transactions
         .push(createTransaction(Match.amount,
           Match.sender, Transaction.receiver, statusType.achieved));
-      Block.pendingTransactions = Block.pendingTransactions.filter((transactionToSuppress) => (
-        Transaction !== transactionToSuppress && Match !== transactionToSuppress));
+      blockTargeted.pendingTransactions = blockTargeted
+        .pendingTransactions.filter((transactionToSuppress) => (
+          Transaction !== transactionToSuppress && Match !== transactionToSuppress));
     }
   }
-  return Block;
+  return blockTargeted;
 };
 const getAllSucceededTransactionsByUser = (
   blockchain:blockChain, userTargeted:user,

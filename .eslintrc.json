@@ -6,7 +6,6 @@
     },
     "extends": ["airbnb-base"
     ],
-    // "parser": "@babel/eslint-parser",
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 12,
@@ -15,13 +14,26 @@
     "plugins": [
         "@typescript-eslint",
         "import", 
-        // "@babel/plugin-proposal-optional-chaining",
         "jest"
     ],
     "ignorePatterns": [ "src/model/transaction.ts" ] ,
     "rules": {
         "semi": [2, "always"],  
         "import/no-unresolved": "error",
+        "no-restricted-syntax": [
+          "error",
+          {
+              "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(warn|error|info|trace)$/]",
+              "message": "Unexpected property on console object was called"
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "parameter",
+            "format": ["camelCase"]
+          }
+        ],
         "import/extensions": [
             "error",
             "ignorePackages",
@@ -39,5 +51,5 @@
             "extensions": [".js", ".jsx", ".ts", ".tsx"]
           }
         } 
-      }
+    }
 }

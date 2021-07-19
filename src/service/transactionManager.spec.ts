@@ -130,12 +130,11 @@ describe('getAllTransactionsByUser', () => {
     block33.pendingTransactions.push(impossibleTransaction);
     minePendingBuyOrSellTransaction(blockChain3, block33);
     // when
-    const T = getAllTransactionsByUser(blockChain3, firstMiner3);
-    const TH = getAllTransactionsByUser(blockChain3, secondMiner3);
+    const transactionsMadeByFirsMiner3 = getAllTransactionsByUser(blockChain3, firstMiner3);
+    const transactionsMadeBySecondMinerMiner3 = getAllTransactionsByUser(blockChain3, secondMiner3);
     // then
-    expect(T.length).toStrictEqual(2);
-    expect(TH.length).toStrictEqual(2);
-    console.log(TH);
-    expect(TH).toContain(impossibleTransaction);
+    expect(transactionsMadeByFirsMiner3.length).toStrictEqual(2);
+    expect(transactionsMadeBySecondMinerMiner3.length).toStrictEqual(2);
+    expect(transactionsMadeBySecondMinerMiner3).toContain(impossibleTransaction);
   });
 });
