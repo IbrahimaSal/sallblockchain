@@ -1,21 +1,31 @@
 import serverless from 'serverless-http';
 import express from 'express';
-
+import multer from 'multer';
 import cors from 'cors';
 import { statusType } from './model/transaction';
 import { user } from './model/user';
 import {
   addBlock,
-  createBlock, createBlockChain, createGenesisBlock, findHash, getLastBlock, mine,
+  createBlock, createBlockChain, createBlockChainUser, createGenesisBlock,
+  findHash, getLastBlock, mine,
 } from './service/blockChainManager';
-import { createTransaction, getBalance } from './service/transactionManagement';
+import {
+  createTransaction,
+  getAllTransactionsByUser,
+  getBalance,
+} from './service/transactionManagement';
+import { createUser, getAllUsers } from './service/Database';
+import { ApiOperationStatus } from './model/database';
+
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 const genesisBlock = createGenesisBlock();
-const theMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
-const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+const theMiner : user = createBlockChainUser('FirstMiner');
+const secondMiner : user = createBlockChainUser('secondMiner');
 const blockChain = createBlockChain(100, 2);
 const block1 = createBlock(
   blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2),
@@ -39,9 +49,6 @@ getLastBlock(blockChain).pendingTransactions.push(Transaction3);
 getLastBlock(blockChain).pendingTransactions.push(Transaction4);
 getLastBlock(blockChain).pendingTransactions.push(Transaction5);
 mine(blockChain, theMiner);
-console.log(getBalance(blockChain, theMiner));
-console.log(getBalance(blockChain, secondMiner));
-console.log(blockChain.transactions);
 app.get('/', (req, res) => {
   res.send(genesisBlock);
 }).get('/blockChain', (req, res) => {
@@ -51,16 +58,66 @@ app.get('/', (req, res) => {
 }).get('/blockChainTransactions', (req, res) => {
   res.send(blockChain.transactions);
 })
+  .get('/mine', (req, res) => {
+    res.send(mine(blockChain, theMiner));
+  })
   .get('/balance', (req, res) => {
     res.send(`theMiners'balance is :${getBalance(blockChain, theMiner)}`);
   })
   .get('/voters', (req, res) => {
     res.send('Nous sommes les voteurs');
+  })
+  .get('/balance/:publicKey', (req, res) => {
+    res.send(
+      `${getBalance(blockChain,
+        createBlockChainUser(req.params.publicKey))}`,
+    );
+  })
+  .get('/createTransaction/:amount/:sender/:receiver', (req, res) => {
+    const transactionToCreate = createTransaction(
+      Number(req.params.amount),
+      createBlockChainUser(req.params.sender),
+      createBlockChainUser(req.params.receiver),
+      statusType.pending,
+    );
+    const numberOfBlocks = blockChain.chain.length;
+    blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
+    res.send(blockChain);
+  })
+  .post('/createTransaction', multer().none(), async (request, response) => {
+    const transactionToCreate = createTransaction(
+      Number(await request.body.amount),
+      createBlockChainUser(await request.body.sender),
+      createBlockChainUser(await request.body.receiver),
+      statusType.pending,
+    );
+    const numberOfBlocks = blockChain.chain.length;
+    blockChain.chain[numberOfBlocks - 1].pendingTransactions.push(transactionToCreate);
+    response.send(blockChain);
+  })
+  .get('/createUser/:email',
+    async (req, res) => {
+      res.send(await createUser(createBlockChainUser(req.params.email)));
+    })
+  .get('/getAllTransactions/:userpublickey',
+    (req, res) => {
+      res.send(
+        getAllTransactionsByUser(
+          blockChain, createBlockChainUser(req.params.userpublickey),
+        ),
+      );
+    })
+  .post('/createUser', multer().none(),
+    async (request, response) => {
+      try {
+        await createUser(createBlockChainUser(request.body.publickey));
+        response.send(ApiOperationStatus.success);
+      } catch (error) {
+        console.error(error);
+        response.send(ApiOperationStatus.failure);
+      }
+    })
+  .get('/blockChainUsers', async (req, res) => {
+    res.send(await getAllUsers());
   });
-
-// const port = 5000;
-// app.listen(port, () => {
-//   console.log(`server started at http://localhost:${port}`);
-// });
-
 module.exports.handler = serverless(app);

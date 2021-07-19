@@ -50,7 +50,7 @@ describe('createBlock', () => {
     expect(bloc.pendingTransactions[0].amount).toStrictEqual(10);
     expect(bloc.pendingTransactions[0].sender).toStrictEqual(null);
     expect(bloc.pendingTransactions[0].receiver).toStrictEqual(null);
-    expect(bloc.pendingTransactions[0].status).toStrictEqual(1);
+    expect(bloc.pendingTransactions[0].status).toStrictEqual(statusType.pending);
   });
 });
 
@@ -109,8 +109,8 @@ describe('findHash', () => {
 describe('mine', () => {
   it(' returns the result encryption code of 0', () => {
     // given
-    const firstMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
-    const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+    const firstMiner : user = { PrivateKey: 'FirstMiner', PublicKey: '24052021' };
+    const secondMiner : user = { PrivateKey: 'secondMiner', PublicKey: '24052022' };
     const blockChain = createBlockChain(100, 2);
     const block1 = createBlock(blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2));
     addBlock(blockChain, block1);

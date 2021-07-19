@@ -1,4 +1,8 @@
 export interface user {
-    privateKey:string;
-    publicKey:string;
+    PrivateKey:string;
+    PublicKey:string;
+}
+export interface apiUser {
+    email:string;
+    password:string;
 }

@@ -4,17 +4,19 @@ import {
   addBlock, createBlock, createBlockChain, findHash,
 } from './blockChainManager';
 import {
-  createTransaction, getBalance, minePendingBuyOrSellTransaction, minePendingExchangeTransaction,
+  createTransaction,
+  getAllTransactionsByUser,
+  getBalance, minePendingBuyOrSellTransaction, minePendingExchangeTransaction,
 } from './transactionManagement';
 
 describe('getBalance', () => {
   it(' get balance of a user', () => {
     const root : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
+      PrivateKey: 'IbaSall',
+      PublicKey: '220071992',
     };
-    const firstMiner : user = { privateKey: 'FirstMiner', publicKey: '24052021' };
-    const secondMiner : user = { privateKey: 'secondMiner', publicKey: '24052022' };
+    const firstMiner : user = { PrivateKey: 'FirstMiner', PublicKey: '24052021' };
+    const secondMiner : user = { PrivateKey: 'secondMiner', PublicKey: '24052022' };
     const blockChain = createBlockChain(100, 2);
     const block1 = createBlock(
       blockChain.chain[0].id, findHash(blockChain.chain[0].id, 2),
@@ -39,11 +41,11 @@ describe('minePendingExchangeTransaction', () => {
   it(' mine a transaction between two user in a given block', () => {
     // given
     const root2 : user = {
-      privateKey: 'IbaSall',
-      publicKey: '220071992',
+      PrivateKey: 'IbaSall',
+      PublicKey: '220071992',
     };
-    const firstMiner2 : user = { privateKey: 'FirstMiner2', publicKey: '240520212' };
-    const secondMiner2 : user = { privateKey: 'secondMiner2', publicKey: '240520222' };
+    const firstMiner2 : user = { PrivateKey: 'FirstMiner2', PublicKey: '240520212' };
+    const secondMiner2 : user = { PrivateKey: 'secondMiner2', PublicKey: '240520222' };
     const blockChain2 = createBlockChain(100, 2);
     const block12 = createBlock(
       blockChain2.chain[0].id, findHash(blockChain2.chain[0].id, 2),
@@ -68,11 +70,11 @@ describe('minePendingBuyOrSellTransaction', () => {
   it(' mine a buy or sell transaction request if a correct match is found', () => {
     // given
     const root3 : user = {
-      privateKey: 'IbaSall3',
-      publicKey: '2200719923',
+      PrivateKey: 'IbaSall3',
+      PublicKey: '2200719923',
     };
-    const firstMiner3 : user = { privateKey: 'FirstMiner3', publicKey: '2405202123' };
-    const secondMiner3 : user = { privateKey: 'secondMiner3', publicKey: '2405202223' };
+    const firstMiner3 : user = { PrivateKey: 'FirstMiner3', PublicKey: '2405202123' };
+    const secondMiner3 : user = { PrivateKey: 'secondMiner3', PublicKey: '2405202223' };
     const blockChain3 = createBlockChain(100, 2);
     const block13 = createBlock(
       blockChain3.chain[0].id, findHash(blockChain3.chain[0].id, 2),
@@ -97,6 +99,42 @@ describe('minePendingBuyOrSellTransaction', () => {
     expect(getBalance(blockChain3, firstMiner3)).toStrictEqual(350);
     expect(getBalance(blockChain3, secondMiner3)).toStrictEqual(50);
     expect(block33.pendingTransactions.find((tr) => tr === impossibleTransaction).status)
-      .toStrictEqual(1);
+      .toStrictEqual(statusType.pending);
+  });
+});
+describe('getAllTransactionsByUser', () => {
+  it(' gets all transactions initiated by a user ', () => {
+    // given
+    const root3 : user = {
+      PrivateKey: 'IbaSall3',
+      PublicKey: '2200719923',
+    };
+    const firstMiner3 : user = { PrivateKey: 'FirstMiner3', PublicKey: '2405202123' };
+    const secondMiner3 : user = { PrivateKey: 'secondMiner3', PublicKey: '2405202223' };
+    const blockChain3 = createBlockChain(100, 2);
+    const block13 = createBlock(
+      blockChain3.chain[0].id, findHash(blockChain3.chain[0].id, 2),
+    );
+    addBlock(blockChain3, block13);
+    const block23 = createBlock(blockChain3.chain[1].id, findHash(blockChain3.chain[1].id, 2));
+    addBlock(blockChain3, block23);
+    const block33 = createBlock(blockChain3.chain[2].id, findHash(blockChain3.chain[2].id, 2));
+    addBlock(blockChain3, block33);
+    const transaction13 = createTransaction(400, root3, firstMiner3, statusType.achieved);
+    const transaction231 = createTransaction(50, firstMiner3, null, statusType.pending);
+    const transaction232 = createTransaction(50, null, secondMiner3, statusType.pending);
+    const impossibleTransaction = createTransaction(5000, secondMiner3, null, statusType.pending);
+    blockChain3.transactions.push(transaction13);
+    block33.pendingTransactions.push(transaction231);
+    block33.pendingTransactions.push(transaction232);
+    block33.pendingTransactions.push(impossibleTransaction);
+    minePendingBuyOrSellTransaction(blockChain3, block33);
+    // when
+    const transactionsMadeByFirsMiner3 = getAllTransactionsByUser(blockChain3, firstMiner3);
+    const transactionsMadeBySecondMinerMiner3 = getAllTransactionsByUser(blockChain3, secondMiner3);
+    // then
+    expect(transactionsMadeByFirsMiner3.length).toStrictEqual(2);
+    expect(transactionsMadeBySecondMinerMiner3.length).toStrictEqual(2);
+    expect(transactionsMadeBySecondMinerMiner3).toContain(impossibleTransaction);
   });
 });
